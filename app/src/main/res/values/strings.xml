@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Navogation_with_pages</string>
+    <string name="title_home">Home</string>
+    <string name="title_search">Search</string>
+    <string name="title_add">Create</string>
+    <string name="title_chat">Chat</string>
+    <string name="title_profile">Profile</string>
+
+</resources>
