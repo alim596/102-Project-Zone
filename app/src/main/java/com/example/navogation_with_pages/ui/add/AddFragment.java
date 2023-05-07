@@ -24,8 +24,6 @@ public class AddFragment extends Fragment {
         binding = FragmentAddBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textAdd;
-        addViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 

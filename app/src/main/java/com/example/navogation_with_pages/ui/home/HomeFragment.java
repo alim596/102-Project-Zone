@@ -4,34 +4,44 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.navogation_with_pages.databinding.FragmentHomeBinding;
+import com.example.navogation_with_pages.R;
+import com.example.navogation_with_pages.Zone;
+import com.example.navogation_with_pages.ZonesRecViewAdapter;
+import com.example.navogation_with_pages.ui.home.HomeViewModel;
+
+import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
-    private FragmentHomeBinding binding;
-
+    private HomeViewModel homeViewModel;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
+        homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_home, container, false);
 
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
+        // Observe the LiveData object to get the list of zones
+        homeViewModel.getZones().observe(getViewLifecycleOwner(), new Observer<ArrayList<Zone>>() {
+            @Override
+            public void onChanged(ArrayList<Zone> zones) {
+                // Use the list of zones here
+                ZonesRecViewAdapter adapter = new ZonesRecViewAdapter();
+                adapter.setZones(zones);
 
-        final TextView textView = binding.textHome;
-        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+                RecyclerView zonesRecView = root.findViewById(R.id.zonesRecView);
+                zonesRecView.setAdapter(adapter);
+                zonesRecView.setLayoutManager(new LinearLayoutManager(getContext()));
+            }
+        });
         return root;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
     }
 }
