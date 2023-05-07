@@ -1,3 +1,4 @@
+            zoneCrdView = itemView.findViewById(R.id.zoneCrdView);
 package com.example.navogation_with_pages;
 
 import android.view.LayoutInflater;
