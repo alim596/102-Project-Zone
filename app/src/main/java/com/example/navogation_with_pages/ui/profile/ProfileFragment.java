@@ -7,25 +7,33 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.navogation_with_pages.R;
+import com.example.navogation_with_pages.User;
 import com.example.navogation_with_pages.databinding.FragmentProfileBinding;
 
 public class ProfileFragment extends Fragment {
 
     private FragmentProfileBinding binding;
-
+    private User user;
+    private TextView biography;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_profile, null);
+
+        biography = (TextView) root.findViewById(R.id.biographyDisplay);
+        user = new User("Orhun","epicpassword","orhun.guder@ug.bilkent.edu.tr");
+        user.setBiography("HELLO I'M ORHUN AND I THINK FRAGMENTS ARE UNNECESSARILY HARD FOR NO REASON");
+        biography.setText(user.getBiography());
+
         ProfileViewModel profileViewModel =
                 new ViewModelProvider(this).get(ProfileViewModel.class);
 
         binding = FragmentProfileBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
 
-        final TextView textView = binding.textProfile;
-        profileViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
@@ -34,4 +42,16 @@ public class ProfileFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+    /*
+
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        user = new User("Orhun","epicpassword","orhun.guder@ug.bilkent.edu.tr");
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment, null);
+        TextView but = (TextView) root.findViewById(R.id.text);
+    }
+    */
+
 }
