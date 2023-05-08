@@ -1,9 +1,11 @@
 package com.example.navogation_with_pages;
 
+import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import androidx.annotation.NonNull;
@@ -44,6 +46,23 @@ public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapte
         holder.date.setText(zones.get(position).getDateAndTime());
         holder.details.setText(zones.get(position).getDetails());
 
+        //Expanding on click
+        holder.zoneCrdView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ViewGroup cardParent = (ViewGroup) view.getParent();
+                ViewGroup layout = (ViewGroup) cardParent.getParent();
+                View hiddenLayout = view.findViewById(R.id.hidden);
+
+                TransitionManager.beginDelayedTransition(layout);
+
+                if (hiddenLayout.getVisibility() == View.GONE) {
+                    hiddenLayout.setVisibility(View.VISIBLE);
+                } else {
+                    hiddenLayout.setVisibility(View.GONE);
+                }
+            }
+        });
         // Load image into ImageView if imageUrl is not empty or null
         String imageUrl = zones.get(position).getImageUrl();
         if (imageUrl != null && !imageUrl.isEmpty()) {
@@ -79,6 +98,7 @@ public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapte
         private TextView details;
         private ImageView image;
         private CardView zoneCrdView;
+        private RelativeLayout hidden;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             zoneCrdView = itemView.findViewById(R.id.zoneCrdView);
@@ -87,6 +107,8 @@ public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapte
             date = itemView.findViewById(R.id.date);
             details = itemView.findViewById(R.id.details);
             image = itemView.findViewById(R.id.image);
+            hidden = itemView.findViewById(R.id.hidden);
+
         }
     }
 }

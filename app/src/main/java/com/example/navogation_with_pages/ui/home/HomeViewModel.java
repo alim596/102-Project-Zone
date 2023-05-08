@@ -43,6 +43,8 @@ public class HomeViewModel extends ViewModel {
         zones.add(zoneToAdd);
         mZones.setValue(zones);
     }
+}
+
     /*private void loadZones() {
         ArrayList<Zone> zones = new ArrayList<Zone>();
         zones.add(new Zone("Abdulaleem", 5, "Thursday 05/06", "Lets go to the Mall together and have some fun!!",
@@ -55,4 +57,4 @@ public class HomeViewModel extends ViewModel {
                 "Main Campus Football Field", 0000, "football.png"));
         mZones.setValue(zones);
     }*/
-}
+
