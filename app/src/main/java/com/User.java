@@ -1,11 +1,17 @@
-package com.example.navogation_with_pages;
+package com;
 
 import java.io.File;
 import java.util.ArrayList;
 
 public class User {
+
+    private static int IDCounter = -1;
+
     //Login username
     private String username;
+
+    //The id of the user, also their position in the all users list.
+    private int ID;
 
     //Login password
     private String password;
@@ -14,7 +20,7 @@ public class User {
     private String email;
 
     //Not sure about what class the profile picture is supposed to be
-    private File profilePicture;
+    private String profilePicture;
 
     //An arraylist of the users all friends
     private ArrayList<User> friends;
@@ -29,15 +35,20 @@ public class User {
     private double ratingCount;
 
     //An arrayList of the previous zones of the user
-    private ArrayList<Zone> previousZones;
+    private ArrayList<com.example.navogation_with_pages.Zone> previousZones;
 
 
     public User(String username, String password, String email){
+        IDCounter++;
+        this.ID = IDCounter;
+        this.previousZones = new ArrayList<com.example.navogation_with_pages.Zone>();
         this.username = username;
         this.password = password;
         this.email = email;
         this.averageRating = 0;
         this.ratingCount = 0;
+        this.biography = "";
+        this.friends = new ArrayList<User>();
     }
 
 
@@ -59,7 +70,10 @@ public class User {
         //Todo
     }
 
-
+    @Override
+    public String toString(){
+        return this.username + "\n" + this.biography;
+    }
 
 
 
@@ -78,6 +92,10 @@ public class User {
     }
 
 
+    public int getID(){
+        return this.ID;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -94,11 +112,11 @@ public class User {
         this.email = newEmail;
     }
 
-    public File getProfilePicture() {
+    public String getProfilePicture() {
         return profilePicture;
     }
 
-    public void setProfilePicture(File profilePicture) {
+    public void setProfilePicture(String profilePicture) {
         this.profilePicture = profilePicture;
     }
 
@@ -133,11 +151,11 @@ public class User {
     }
 
 
-    public ArrayList<Zone> getPreviousZones() {
+    public ArrayList<com.example.navogation_with_pages.Zone> getPreviousZones() {
         return previousZones;
     }
 
-    public void addPreviousZone(Zone previousZone) {
+    public void addPreviousZone(com.example.navogation_with_pages.Zone previousZone) {
         this.previousZones.add(previousZone);
     }
 }

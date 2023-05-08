@@ -7,21 +7,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import com.squareup.picasso.Picasso;
+
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.navogation_with_pages.R;
-import com.example.navogation_with_pages.Zone;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapter.ViewHolder> {
+public class ZonesRecViewAdapter2 extends RecyclerView.Adapter<ZonesRecViewAdapter2.ViewHolder> {
 
     private ArrayList<Zone> zones = new ArrayList<>();
 
-    public ZonesRecViewAdapter() {
+    public ZonesRecViewAdapter2() {
     }
 
     //This method creates an instance of the ViewHolder class for every item in our recyclerView.
@@ -50,17 +49,7 @@ public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapte
         holder.zoneCrdView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ViewGroup cardParent = (ViewGroup) view.getParent();
-                ViewGroup layout = (ViewGroup) cardParent.getParent();
-                View hiddenLayout = view.findViewById(R.id.hidden);
 
-                TransitionManager.beginDelayedTransition(layout);
-
-                if (hiddenLayout.getVisibility() == View.GONE) {
-                    hiddenLayout.setVisibility(View.VISIBLE);
-                } else {
-                    hiddenLayout.setVisibility(View.GONE);
-                }
             }
         });
         // Load image into ImageView if imageUrl is not empty or null

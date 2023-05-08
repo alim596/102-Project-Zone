@@ -72,31 +72,60 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <DatePicker
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/quota_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/details_field"
+                android:layout_marginTop="20dp"
+                android:hint="Number of participants">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <DatePicker
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/quota_field"
                 android:id="@+id/date_picker"
                 android:layout_marginTop="20dp"
                 android:background="@color/md_pink_50"
                 android:headerBackground="@color/md_red_200"
                 />
 
-            <Switch
-                android:layout_width="wrap_content"
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:checkedButton="@id/rad_public"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/switch_field"
                 android:layout_below="@+id/date_picker"
-                android:text="Set mode"
-                android:layout_marginVertical="20dp"
-                />
+                android:orientation="horizontal"
+                android:paddingVertical="20dp">
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/rad_private"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Private"
+                    android:layout_marginRight="10dp"/>
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/rad_public"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Public"/>
+            </RadioGroup>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/photo_field"
+                android:id="@+id/image_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter URL"
-                android:layout_below="@+id/switch_field">
+                android:layout_below="@+id/radioGroup">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -105,13 +134,30 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/post_button"
+                style="@style/Widget.Material3.Button.ElevatedButton"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/image_field"
+                android:backgroundTint="@color/md_purple_300"
+                android:text="Post"
+                android:textSize="20dp"
+                app:cornerRadius="5dp"
+                android:textColor="@color/white"
+                android:layout_marginTop="20dp"
+                android:layout_marginHorizontal="5dp"
+                />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="HOLD"
-                android:layout_below="@+id/photo_field"
-                android:layout_marginTop="20dp"
+                android:layout_below="@+id/image_field"
+                android:layout_marginTop="130dp"
                 android:textSize="20dp"
+                />
         </RelativeLayout>
 
     </ScrollView>

@@ -13,7 +13,16 @@
         android:theme="@style/Theme.Navogation_with_pages"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.profile.OthersProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.profile.ProfileSettings"
+            android:exported="false" />
+        <activity
+            android:name=".SignInPageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegisterpageActivity"
             android:exported="true"
             android:label="@string/app_name">
             <intent-filter>
@@ -22,6 +31,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.profile.FriendsListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"></activity>
     </application>
 
 </manifest>

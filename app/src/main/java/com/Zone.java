@@ -1,26 +1,26 @@
-package com.example.navogation_with_pages;
+package com;
 
 import java.util.Date;
 
 public class Zone {
     private String name;
-    private int quota;
+    private String quota;
     private String dateAndTime;
     private String details;
     private String location;
-    private int securityID;
+    private String security;
     private String imageUrl;
 
-    public Zone(String name, int quota, String dateAndTime, String details, String location, int securityID, String imageUrl) {
+    public Zone(String name, String quota, String dateAndTime, String details, String location, String security, String imageUrl) {
         this.name = name;
         this.quota = quota;
         this.dateAndTime = dateAndTime;
         this.details = details;
         this.location = location;
-        this.securityID = securityID;
+        this.security = security;
         this.imageUrl = imageUrl;
     }
-    public Zone(){}
+
     public String getName() {
         return name;
     }
@@ -29,11 +29,11 @@ public class Zone {
         this.name = name;
     }
 
-    public int getQuota() {
+    public String getQuota() {
         return quota;
     }
 
-    public void setQuota(int quota) {
+    public void setQuota(String quota) {
         this.quota = quota;
     }
 
@@ -61,12 +61,12 @@ public class Zone {
         this.location = location;
     }
 
-    public int getSecurity() {
-        return securityID;
+    public String getSecurity() {
+        return security;
     }
 
-    public void setSecurity(int security) {
-        this.securityID = security;
+    public void setSecurity(String security) {
+        this.security = security;
     }
 
     public String getImageUrl() {
@@ -77,7 +77,6 @@ public class Zone {
         this.imageUrl = imageUrl;
     }
 
-
     @Override
     public String toString() {
         return "Zone{" +
@@ -86,7 +85,7 @@ public class Zone {
                 ", dateAndTime=" + dateAndTime +
                 ", details='" + details + '\'' +
                 ", location='" + location + '\'' +
-                ", security='" + securityID + '\'' +
+                ", security='" + security + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
                 '}';
     }

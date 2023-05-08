@@ -20,14 +20,17 @@ public class ProfileFragment extends Fragment {
     private FragmentProfileBinding binding;
     private User user;
     private TextView biography;
+    private TextView name;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_profile, null);
 
         biography = (TextView) root.findViewById(R.id.biographyDisplay);
+        name = (TextView) root.findViewById(R.id.usernameDisplay);
         user = new User("Orhun","epicpassword","orhun.guder@ug.bilkent.edu.tr");
         user.setBiography("HELLO I'M ORHUN AND I THINK FRAGMENTS ARE UNNECESSARILY HARD FOR NO REASON");
         biography.setText(user.getBiography());
+        name.setText(user.getUsername());
 
         ProfileViewModel profileViewModel =
                 new ViewModelProvider(this).get(ProfileViewModel.class);
