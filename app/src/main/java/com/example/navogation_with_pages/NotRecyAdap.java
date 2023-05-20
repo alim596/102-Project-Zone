@@ -30,6 +30,8 @@ public class NotRecyAdap extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             person_name = (TextView)itemView.findViewById(R.id.person_name);
             small_info = (TextView)itemView.findViewById(R.id.small_info);
             person_img = (ImageView)itemView.findViewById(R.id.person_photo);
+            accept_button = (Button)itemView.findViewById(R.id.accept_button);
+            delete_button = (Button)itemView.findViewById(R.id.delete_button);
         }
     }
 

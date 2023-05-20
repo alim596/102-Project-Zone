@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -20,13 +19,13 @@ import com.example.navogation_with_pages.databinding.FragmentNotificationsBindin
 public class NotificationsFragment extends Fragment {
 
     NotRecyAdap adapter;
-    NotificationsViewModel chatViewModel;
+    NotificationsViewModel notificationsViewModel;
     private FragmentNotificationsBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState)
     {
-        chatViewModel = new ViewModelProvider(this).get(NotificationsViewModel.class);
+        notificationsViewModel = new ViewModelProvider(this).get(NotificationsViewModel.class);
 
         binding = FragmentNotificationsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -39,7 +38,7 @@ public class NotificationsFragment extends Fragment {
 
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new NotRecyAdap(chatViewModel.getNotification_list());
+        adapter = new NotRecyAdap(notificationsViewModel.getNotification_list());
         recyclerView.setAdapter(adapter);
 
         return root;

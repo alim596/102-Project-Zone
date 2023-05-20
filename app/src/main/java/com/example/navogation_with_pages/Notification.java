@@ -12,33 +12,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.navogation_with_pages.ui.notifications.NotificationsFragment;
 
-public class Notification extends AppCompatActivity
+public class Notification
 {
-    Button accept_button;
-    Button delete_button;
     String name;
     String info;
     ImageView imageView;
-    boolean choosable = false;
 
-    public Notification(String name, String info, ImageView imageView, boolean choosable)
+    public Notification(String name, String info, ImageView imageView)
     {
-        this.choosable = choosable;
         this.name      = name;
         this.info      = info;
         this.imageView = imageView;
-
-        if(choosable)
-        {
-
-        }
-    }
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.card_view_layout);
     }
 
     public String getName() { return this.name; }
