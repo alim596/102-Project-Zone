@@ -20,11 +20,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.Zone;
 import com.example.navogation_with_pages.MainActivity;
 import com.example.navogation_with_pages.R;
 import com.User;
-import com.example.navogation_with_pages.ZonesRecViewAdapter;
 import com.example.navogation_with_pages.ZonesRecViewAdapter2;
 import com.example.navogation_with_pages.databinding.FragmentProfileBinding;
 

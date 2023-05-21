@@ -11,8 +11,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.User;
 import com.example.navogation_with_pages.R;
-import com.example.navogation_with_pages.User;
 import com.example.navogation_with_pages.databinding.FragmentProfileBinding;
 
 public class ProfileFragment extends Fragment {
@@ -26,7 +26,7 @@ public class ProfileFragment extends Fragment {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_profile, null);
 
         biography = (TextView) root.findViewById(R.id.biographyDisplay);
-        name = (TextView) root.findViewById(R.id.usernameDisplay);
+        name = (TextView) root.findViewById(R.id.OtherUsernameDisplay);
         user = new User("Orhun","epicpassword","orhun.guder@ug.bilkent.edu.tr");
         user.setBiography("HELLO I'M ORHUN AND I THINK FRAGMENTS ARE UNNECESSARILY HARD FOR NO REASON");
         biography.setText(user.getBiography());
