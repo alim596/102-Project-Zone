@@ -133,6 +133,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Choose Category"
+                app:boxBackgroundColor="#DBDEFA"
                 android:layout_below="@+id/radioGroup"
                 >
 
@@ -148,14 +149,14 @@
                 android:id="@+id/image_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter URL"
+                android:hint="Enter Image URL"
                 android:layout_marginTop="20dp"
                 android:layout_below="@+id/category">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#DBDEFA" />
+                    android:background="#D3DCF3EE" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

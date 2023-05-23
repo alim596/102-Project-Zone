@@ -45,11 +45,11 @@ public class Zone {
         return dateAndTime;
     }
 
-
     public String getDetails() {
         return details;
     }
     public String getCategory(){return category;}
+    public ArrayList<User> getParticipants(){ return participants; }
 
     public String getImageUrl() {
         return imageUrl;
@@ -88,10 +88,8 @@ public class Zone {
 
     public void addParticipant(User participant) {
         participants.add(participant);
-        for(User user: participants)
-        {
-            participantsNames.add(user.getUsername());
-        }
+        participantsNames.add(participant.getUsername());
+
     }
 
 

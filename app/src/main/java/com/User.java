@@ -53,6 +53,8 @@ public class User {
         this.friends = new ArrayList<User>();
     }
 
+    public User(){}
+
 
     /**
      * Adds the user to the zone.

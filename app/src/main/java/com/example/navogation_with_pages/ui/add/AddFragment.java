@@ -13,13 +13,13 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-
+import com.User;
+import com.example.navogation_with_pages.MainActivity;
 import com.example.navogation_with_pages.R;
 import com.example.navogation_with_pages.Zone;
 import com.example.navogation_with_pages.databinding.FragmentAddBinding;
@@ -28,8 +28,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class AddFragment extends Fragment {
 
@@ -76,6 +76,11 @@ public class AddFragment extends Fragment {
         quota = quotaLayout.getEditText();
 
         date = root.findViewById(R.id.date_picker);
+        // Get the current date.
+        Calendar calendar = Calendar.getInstance();
+        // Set the minimum date of the DatePicker to be today.
+        date.setMinDate(calendar.getTimeInMillis());
+
         publicPrivate = root.findViewById(R.id.radioGroup);
 
         TextInputLayout imageUrlLayout = root.findViewById(R.id.image_field);
@@ -123,8 +128,10 @@ public class AddFragment extends Fragment {
                 // All required fields are filled, create the Zone object
                 String dateStr = "" + date.getDayOfMonth() + "/" + (date.getMonth() + 1) + "/" + date.getYear();
                 int quotaValue = Integer.parseInt(quota.getText().toString());
-                Zone zone = new Zone(name.getText().toString(), quotaValue, dateStr, details.getText().toString(), location.getText().toString(), publicPrivate.getCheckedRadioButtonId(), imageUrl.getText().toString(), category);
-
+                Zone zone = new Zone(name.getText().toString(), quotaValue, dateStr, details.getText().toString(),
+                        location.getText().toString(), publicPrivate.getCheckedRadioButtonId(),
+                        imageUrl.getText().toString(), category);
+                zone.addParticipant(MainActivity.user3);
                 // Save the zone to the database
                 homeViewModel.getDB().collection("zone").add(zone)
                         .addOnSuccessListener(documentReference -> {
@@ -134,9 +141,6 @@ public class AddFragment extends Fragment {
                         .addOnFailureListener(e -> {
                             Log.w("TAG", "Error adding zone", e);
                         });
-
-
-
 
                 // Show success message
                 Toast.makeText(getContext(), "Zone added successfully", Toast.LENGTH_SHORT).show();

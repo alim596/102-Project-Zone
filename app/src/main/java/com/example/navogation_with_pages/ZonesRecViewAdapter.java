@@ -1,26 +1,32 @@
 package com.example.navogation_with_pages;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.graphics.Color;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import com.User;
+import com.example.navogation_with_pages.ui.profile.OthersProfileActivity;
 import com.squareup.picasso.Picasso;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.navogation_with_pages.R;
 import com.example.navogation_with_pages.Zone;
-
 import java.util.ArrayList;
+import java.util.List;
 
 public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapter.ViewHolder> {
 
     private ArrayList<Zone> zones = new ArrayList<>();
+    LinearLayout participantsContainer2;
 
     public ZonesRecViewAdapter() {
     }
@@ -40,13 +46,35 @@ public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapte
         return holder;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Zone currentZone = zones.get(position);
         holder.name.setText(zones.get(position).getName());
         holder.quota.setText(Integer.toString(zones.get(position).getQuota()));
         holder.date.setText(zones.get(position).getDateAndTime());
         holder.details.setText(zones.get(position).getDetails());
         holder.category.setText(zones.get(position).getCategory());
+
+        //Adding participants into the zones
+        holder.participantsContainer.removeAllViews();
+        if(currentZone.getParticipants() != null){
+            for (User user : currentZone.getParticipants()) {
+                Button userButton = new Button(holder.itemView.getContext());
+                userButton.setText(user.getUsername());
+                userButton.setBackgroundColor(Color.TRANSPARENT); // remove button background to make it just text
+                userButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(holder.itemView.getContext(), OthersProfileActivity.class);
+                        intent.putExtra("ID", user.getID());
+                        holder.itemView.getContext().startActivity(intent);
+                    }
+                });
+                holder.participantsContainer.addView(userButton);
+            }
+        }
+
 
         //Expanding on click
         holder.zoneCrdView.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +110,7 @@ public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapte
         });
     }
 
+
     @Override
     public int getItemCount() {
         return zones.size();
@@ -102,6 +131,7 @@ public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapte
         private TextView category;
         private CardView zoneCrdView;
         private RelativeLayout hidden;
+        private LinearLayout participantsContainer;
         private Button requestBtn;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -113,6 +143,7 @@ public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapte
             image = itemView.findViewById(R.id.image);
             category = itemView.findViewById(R.id.category);
             hidden = itemView.findViewById(R.id.hidden);
+            participantsContainer = itemView.findViewById(R.id.participantsContainer);
             requestBtn = itemView.findViewById(R.id.requestBtn);
 
         }

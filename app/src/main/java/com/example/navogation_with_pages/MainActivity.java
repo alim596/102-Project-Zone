@@ -31,9 +31,9 @@ public class MainActivity extends AppCompatActivity {
     private RelativeLayout hiddenLayout;
 
     public static ArrayList<User> allUsers = new ArrayList<User>();
-    static User user1 = new User("Ada Güder","asdasd","asdasdasdasd");
-    static User user2 = new User("Toprak Kekin","asdasd","asdasdasdasd");
-    static User user3 = new User("Orhun Güder","epicpassword","orhun.guder@ug.bilkent.edu.tr");
+    public static User user1 = new User("Ada Güder","asdasd","asdasdasdasd");
+    public static User user2 = new User("Toprak Kekin","asdasd","asdasdasdasd");
+    public static User user3 = new User("Orhun Güder","epicpassword","orhun.guder@ug.bilkent.edu.tr");
     private ActivityMainBinding binding;
 
 
@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+
 
     }
     @Override
