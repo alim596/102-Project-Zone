@@ -2,34 +2,35 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/add"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/add"
+    android:background="#C6FFFFFF"
     android:paddingHorizontal="40dp"
     tools:context=".ui.add.AddFragment">
 
     <TextView
+        android:id="@+id/create_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create Your Own Zone!"
-        android:id="@+id/create_title"
         android:layout_centerHorizontal="true"
+        android:fontFamily="sans-serif"
+        android:text="Create Your Own Zone!"
         android:textAlignment="center"
-        android:textSize="40dp"
-        />
+        android:textColor="#75000000"
+        android:textSize="35dp" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/create_title"
-        >
+        android:layout_below="@+id/create_title">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/create_title"
-            android:layout_marginVertical="20dp"
-            >
+            android:layout_marginVertical="20dp">
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/name_field"
                 android:layout_width="match_parent"
@@ -39,7 +40,10 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
+                    android:background="#D3DCF3EE"
+                    android:fontFamily="sans-serif"
+                    android:textColor="#000000"
+                    android:textColorHint="#000000" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -47,14 +51,14 @@
                 android:id="@+id/location_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="20dp"
                 android:layout_below="@id/name_field"
+                android:layout_marginVertical="20dp"
                 android:hint="Location">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
+                    android:background="#DBDEFA" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -68,7 +72,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
+                    android:background="#D3DCF3EE" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -83,41 +87,44 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    />
+                    android:background="#DBDEFA"
+                    android:inputType="number" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
 
             <DatePicker
+                android:id="@+id/date_picker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/quota_field"
-                android:id="@+id/date_picker"
                 android:layout_marginTop="20dp"
-                android:background="@color/md_pink_50"
-                android:headerBackground="@color/md_red_200"
-                />
+                android:background="#D3DCF3EE"
+                android:hapticFeedbackEnabled="false"
+                android:headerBackground="#C5F6ED" />
 
             <RadioGroup
                 android:id="@+id/radioGroup"
-                android:checkedButton="@id/rad_public"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/date_picker"
+                android:background="#FFFFFF"
+                android:checkedButton="@id/rad_public"
                 android:orientation="horizontal"
                 android:paddingVertical="20dp">
+
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rad_private"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Private"
-                    android:layout_marginRight="10dp"/>
+                    android:layout_marginRight="10dp"
+                    android:text="Private" />
+
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/rad_public"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Public"/>
+                    android:text="Public" />
             </RadioGroup>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -148,39 +155,36 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
+                    android:background="#DBDEFA" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/post_button"
                 style="@style/Widget.Material3.Button.ElevatedButton"
-                android:layout_centerHorizontal="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/image_field"
-                android:backgroundTint="@color/md_purple_300"
-                android:text="Post"
-                android:textSize="20dp"
-                app:cornerRadius="5dp"
-                android:textColor="@color/white"
-                android:layout_marginTop="20dp"
+                android:layout_centerHorizontal="true"
                 android:layout_marginHorizontal="5dp"
-                />
+                android:layout_marginTop="20dp"
+                android:backgroundTint="#6F77D1"
+                android:text="Post"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                app:cornerRadius="5dp" />
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="HOLD"
                 android:layout_below="@+id/image_field"
                 android:layout_marginTop="130dp"
-                android:textSize="20dp"
-                />
+                android:text="HOLD"
+                android:textSize="20dp" />
         </RelativeLayout>
 
     </ScrollView>
-
 
 
 </RelativeLayout>
