@@ -100,4 +100,10 @@
     </string>
     <string name="action_settings">Settings</string>
 
+    <string-array name="categories">
+        <item>Sport</item>
+        <item>Gaming</item>
+        <item>Chatting</item>
+        <item>Other</item>
+    </string-array>
 </resources>

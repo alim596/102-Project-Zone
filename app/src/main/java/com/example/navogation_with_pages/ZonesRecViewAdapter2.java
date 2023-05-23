@@ -44,6 +44,8 @@ public class ZonesRecViewAdapter2 extends RecyclerView.Adapter<ZonesRecViewAdapt
         holder.quota.setText(Integer.toString(zones.get(position).getQuota()));
         holder.date.setText(zones.get(position).getDateAndTime());
         holder.details.setText(zones.get(position).getDetails());
+        holder.category.setText(zones.get(position).getCategory());
+
 
         //Expanding on click
         holder.zoneCrdView.setOnClickListener(new View.OnClickListener() {
@@ -85,6 +87,8 @@ public class ZonesRecViewAdapter2 extends RecyclerView.Adapter<ZonesRecViewAdapt
         private TextView quota;
         private TextView date;
         private TextView details;
+        private TextView category;
+
         private ImageView image;
         private CardView zoneCrdView;
         private RelativeLayout hidden;
@@ -95,6 +99,7 @@ public class ZonesRecViewAdapter2 extends RecyclerView.Adapter<ZonesRecViewAdapt
             quota = itemView.findViewById(R.id.quota);
             date = itemView.findViewById(R.id.date);
             details = itemView.findViewById(R.id.details);
+            category = itemView.findViewById(R.id.category);
             image = itemView.findViewById(R.id.image);
             hidden = itemView.findViewById(R.id.hidden);
 
