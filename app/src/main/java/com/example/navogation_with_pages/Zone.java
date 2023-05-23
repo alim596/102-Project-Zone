@@ -1,7 +1,9 @@
 package com.example.navogation_with_pages;
 
-import java.util.Date;
+import com.User;
 
+import java.util.ArrayList;
+import java.util.Date;
 public class Zone {
     private String name;
     private int quota;
@@ -10,8 +12,10 @@ public class Zone {
     private String location;
     private int securityID;
     private String imageUrl;
+    private ArrayList<User> participants;
+    private String category;
 
-    public Zone(String name, int quota, String dateAndTime, String details, String location, int securityID, String imageUrl) {
+    public Zone(String name, int quota, String dateAndTime, String details, String location, int securityID, String imageUrl, String category) {
         this.name = name;
         this.quota = quota;
         this.dateAndTime = dateAndTime;
@@ -19,6 +23,7 @@ public class Zone {
         this.location = location;
         this.securityID = securityID;
         this.imageUrl = imageUrl;
+        this.category = category;
     }
     public Zone(){}
     public String getName() {
@@ -48,6 +53,7 @@ public class Zone {
     public String getDetails() {
         return details;
     }
+    public String getCategory(){return category;}
 
     public void setDetails(String details) {
         this.details = details;
@@ -76,7 +82,6 @@ public class Zone {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-
 
     @Override
     public String toString() {

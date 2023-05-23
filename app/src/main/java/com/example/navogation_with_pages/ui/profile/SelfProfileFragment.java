@@ -45,7 +45,7 @@ public class SelfProfileFragment extends Fragment {
         biography.setText(user.getBiography());
         name.setText(user.getUsername());
 
-        com.example.navogation_with_pages.Zone zone = new com.example.navogation_with_pages.Zone("asd", 1, "","asdasdasdasd","East Campus",2,"asd");
+        com.example.navogation_with_pages.Zone zone = new com.example.navogation_with_pages.Zone("asd", 1, "","asdasdasdasd","East Campus",2,"asd", "sport");
         user.addPreviousZone(zone);
         ZonesRecViewAdapter2 adapter = new ZonesRecViewAdapter2();
         recyclerView.setAdapter(adapter);

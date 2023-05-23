@@ -1,15 +1,19 @@
 package com.example.navogation_with_pages;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
+import android.util.AttributeSet;
 import android.view.View;
-import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListAdapter;import com.google.firebase.FirebaseApp;
 import android.widget.RelativeLayout;
 
 import com.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.navigation.NavController;
@@ -31,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     static User user2 = new User("Toprak Kekin","asdasd","asdasdasdasd");
     static User user3 = new User("Orhun Güder","epicpassword","orhun.guder@ug.bilkent.edu.tr");
     private ActivityMainBinding binding;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
