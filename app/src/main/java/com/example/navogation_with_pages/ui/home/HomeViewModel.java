@@ -10,38 +10,41 @@ import androidx.lifecycle.ViewModel;
 import com.example.navogation_with_pages.Zone;
 import com.example.navogation_with_pages.ui.add.AddFragment;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EventListener;
+import java.util.Objects;
+
 
 public class HomeViewModel extends ViewModel {
 
     private MutableLiveData<ArrayList<Zone>> mZones;
-
-    private MutableLiveData<FirebaseFirestore> db = new MutableLiveData<>(FirebaseFirestore.getInstance());
-    private CollectionReference zoneCollection;
-
+    private final FirebaseFirestore DB =  FirebaseFirestore.getInstance();
+    private ListenerRegistration zoneListener;
 
     public HomeViewModel() {
         mZones = new MutableLiveData<>();
-        zoneCollection = db.getValue().collection("zones");
         loadZones();
+        listenForZoneChanges();
     }
 
-    public LiveData<FirebaseFirestore> getDB() {
-        return db;
+    public FirebaseFirestore getDB() {
+        return DB;
     }
+
     public LiveData<ArrayList<Zone>> getZones() {
         return mZones;
     }
 
     private void loadZones() {
-        zoneCollection.get().addOnSuccessListener(queryDocumentSnapshots -> {
+        DB.collection("zone").get().addOnSuccessListener(queryDocumentSnapshots -> {
             ArrayList<Zone> zones = new ArrayList<>();
             for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                 Zone zone = documentSnapshot.toObject(Zone.class);
@@ -52,37 +55,58 @@ public class HomeViewModel extends ViewModel {
             Log.e("HomeViewModel", "Error loading zones", e);
         });
     }
-}
 
-
-
-//Probably not Necessary
-    /*public void addZone(Zone zoneToAdd) {
-        ArrayList<Zone> zones = mZones.getValue();
-        if (zones == null) {
-            zones = new ArrayList<>();
-        }
-        for (Zone zone : zones) {
-            if (zone.getName().equals(zoneToAdd.getName())) {
-                // A zone with the same name already exists, don't add it
+    //Checks if a new zone is added to the database and reads it so that zones will be added in real time
+    private void listenForZoneChanges() {
+        zoneListener = DB.collection("zone").addSnapshotListener((queryDocumentSnapshots, e) -> {
+            if (e != null) {
+                Log.e("HomeViewModel", "Error listening for zone changes", e);
                 return;
             }
+
+            if (queryDocumentSnapshots != null) {
+                ArrayList<Zone> zones = mZones.getValue();
+
+                // Initialize the zones ArrayList if it's null
+                if (zones == null) {
+                    zones = new ArrayList<>();
+                }
+
+                for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()) {
+                    Zone zone = documentChange.getDocument().toObject(Zone.class);
+
+                    switch (documentChange.getType()) {
+                        case ADDED:
+                            if (!zones.contains(zone)) {
+                                zones.add(zone);
+                            }
+                            break;
+                        case MODIFIED:
+                            int index = zones.indexOf(zone);
+                            if (index != -1) {
+                                zones.set(index, zone);
+                            }
+                            break;
+                        case REMOVED:
+                            zones.remove(zone);
+                            break;
+                    }
+                }
+
+                mZones.setValue(zones);
+            }
+        });
+    }
+
+
+
+//removes the Firestore Snapshot Listener when the ViewModel is no longer in use to avoid potential memory leaks.
+    @Override
+    protected void onCleared() {
+        if (zoneListener != null) {
+            zoneListener.remove();
         }
-        zones.add(zoneToAdd);
-        mZones.setValue(zones);
-    }*/
+        super.onCleared();
+    }
 
-
-    /*private void loadZones() {
-        ArrayList<Zone> zones = new ArrayList<Zone>();
-        zones.add(new Zone("Abdulaleem", 5, "Thursday 05/06", "Lets go to the Mall together and have some fun!!",
-                "Kent Park", 0000, "mall.png"));
-        zones.add(new Zone("Orhun", 3, "Thursday 05/06", "We are going to play Basketball and we need 5 more people. You can join if you have ever touched a basketball before.",
-                "Main Campus Sports Hall", 0000, "basketball.png"));
-        zones.add(new Zone("Irmak", 7, "Thursday 05/06", "We will be drinking coffee together in Coffee break. Only for CS students!",
-                "Coffee Break", 0000, "coffeeBreak.png"));
-        zones.add(new Zone("Fazlı", 10, "Thursday 05/06", "We are planning a football game and anyone is welcomed!",
-                "Main Campus Football Field", 0000, "football.png"));
-        mZones.setValue(zones);
-    }*/
-
+}

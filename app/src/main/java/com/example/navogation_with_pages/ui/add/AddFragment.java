@@ -47,18 +47,13 @@ public class AddFragment extends Fragment {
     private HomeViewModel homeViewModel;
     private String[] categories;
     ArrayAdapter<String> arrayAdapter;
-    private CollectionReference zonesCollection;
-
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // ...
         binding = FragmentAddBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        homeViewModel = homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
-
-        //Collection initialization
-        zonesCollection = homeViewModel.getDB().getValue().collection("zones");
+        homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
 
 
         //Categories initialization
@@ -131,16 +126,15 @@ public class AddFragment extends Fragment {
                 Zone zone = new Zone(name.getText().toString(), quotaValue, dateStr, details.getText().toString(), location.getText().toString(), publicPrivate.getCheckedRadioButtonId(), imageUrl.getText().toString(), category);
 
                 // Save the zone to the database
-                if (zone != null) {
-                    zonesCollection.add(zone)
-                            .addOnSuccessListener(documentReference -> {
-                                String zoneId = documentReference.getId();
-                                Log.d("TAG", "Zone added with ID: " + zoneId);
-                            })
-                            .addOnFailureListener(e -> {
-                                Log.w("TAG", "Error adding zone", e);
-                            });
-                }
+                homeViewModel.getDB().collection("zone").add(zone)
+                        .addOnSuccessListener(documentReference -> {
+                            String zoneId = documentReference.getId();
+                            Log.d("TAG", "Zone added with ID: " + zoneId);
+                        })
+                        .addOnFailureListener(e -> {
+                            Log.w("TAG", "Error adding zone", e);
+                        });
+
 
 
 
