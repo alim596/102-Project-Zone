@@ -121,11 +121,29 @@
             </RadioGroup>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/category"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Choose Category"
+                android:layout_below="@+id/radioGroup"
+                >
+
+                <AutoCompleteTextView
+                    android:id="@+id/selection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/image_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter URL"
-                android:layout_below="@+id/radioGroup">
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/category">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -149,6 +167,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginHorizontal="5dp"
                 />
+
 
             <TextView
                 android:layout_width="wrap_content"

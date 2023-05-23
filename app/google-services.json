@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "40334562932",
+    "project_id": "zone-cbb82",
+    "storage_bucket": "zone-cbb82.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:40334562932:android:1a33ee876a65c63be8e321",
+        "android_client_info": {
+          "package_name": "com.example.navogation_with_pages"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "40334562932-i2nlurluadas7b25vg5ol66ggdvfsb84.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzKlMNnCQc7y5P1TPqUzeIPpSypmF0NOw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "40334562932-i2nlurluadas7b25vg5ol66ggdvfsb84.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

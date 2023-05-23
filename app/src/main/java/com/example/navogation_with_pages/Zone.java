@@ -4,7 +4,6 @@ import com.User;
 
 import java.util.ArrayList;
 import java.util.Date;
-
 public class Zone {
     private String name;
     private int quota;
@@ -14,9 +13,10 @@ public class Zone {
     private int securityID;
     private String imageUrl;
     private ArrayList<User> participants;
+    private String category;
     private ArrayList<String> participantsNames;
 
-    public Zone(String name, int quota, String dateAndTime, String details, String location, int securityID, String imageUrl) {
+    public Zone(String name, int quota, String dateAndTime, String details, String location, int securityID, String imageUrl, String category) {
         this.name = name;
         this.quota = quota;
         this.dateAndTime = dateAndTime;
@@ -24,6 +24,7 @@ public class Zone {
         this.location = location;
         this.securityID = securityID;
         this.imageUrl = imageUrl;
+        this.category = category;
         this.participants = new ArrayList<>();
         this.participantsNames = new ArrayList<>();
     }
@@ -48,6 +49,7 @@ public class Zone {
     public String getDetails() {
         return details;
     }
+    public String getCategory(){return category;}
 
     public String getImageUrl() {
         return imageUrl;
