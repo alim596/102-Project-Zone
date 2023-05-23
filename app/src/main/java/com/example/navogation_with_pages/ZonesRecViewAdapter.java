@@ -4,6 +4,7 @@ import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -71,6 +72,13 @@ public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapte
             // Set default image if imageUrl is empty or null
             holder.image.setImageResource(R.drawable.img);
         }
+
+        holder.requestBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO set the implementation for the request button
+            }
+        });
     }
 
     @Override
@@ -83,13 +91,6 @@ public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapte
         notifyDataSetChanged();
     }
 
-    public void updateZones(ArrayList<Zone> zones) {
-        this.zones.clear();
-        this.zones.addAll(zones);
-        notifyDataSetChanged();
-    }
-
-
     //This class gives objects that can hold CardView items to add to the home page
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView name;
@@ -99,6 +100,7 @@ public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapte
         private ImageView image;
         private CardView zoneCrdView;
         private RelativeLayout hidden;
+        private Button requestBtn;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             zoneCrdView = itemView.findViewById(R.id.zoneCrdView);
@@ -108,6 +110,7 @@ public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapte
             details = itemView.findViewById(R.id.details);
             image = itemView.findViewById(R.id.image);
             hidden = itemView.findViewById(R.id.hidden);
+            requestBtn = itemView.findViewById(R.id.requestBtn);
 
         }
     }
