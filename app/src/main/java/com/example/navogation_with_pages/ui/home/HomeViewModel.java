@@ -97,6 +97,7 @@ public class HomeViewModel extends ViewModel {
 
 
 
+
 //removes the Firestore Snapshot Listener when the ViewModel is no longer in use to avoid potential memory leaks.
     @Override
     protected void onCleared() {

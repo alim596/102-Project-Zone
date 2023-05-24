@@ -20,7 +20,12 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.navogation_with_pages.R;
 import com.example.navogation_with_pages.Zone;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapter.ViewHolder> {
@@ -55,6 +60,7 @@ public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapte
         holder.date.setText(zones.get(position).getDateAndTime());
         holder.details.setText(zones.get(position).getDetails());
         holder.category.setText(zones.get(position).getCategory());
+
 
         //Adding participants into the zones
         holder.participantsContainer.removeAllViews();
@@ -110,14 +116,32 @@ public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapte
         });
     }
 
+    //Removes the zone if it was expired (1 day after the given day)
+    private boolean isEventExpired(String eventDateString) {
+        try {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("d/M/yyyy");
+            LocalDate eventDate = LocalDate.parse(eventDateString, dtf);
+            return eventDate.isBefore(LocalDate.now());
+        } catch (DateTimeParseException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     @Override
     public int getItemCount() {
         return zones.size();
     }
 
+    //sets the zones into the home fragment and handles expired zones too
     public void setZones(ArrayList<Zone> zones) {
-        this.zones = zones;
+        ArrayList<Zone> filteredZones = new ArrayList<>();
+        for (Zone zone : zones) {
+            if (!isEventExpired(zone.getDateAndTime())) {
+                filteredZones.add(zone);
+            }
+        }
+        this.zones = filteredZones;
         notifyDataSetChanged();
     }
 

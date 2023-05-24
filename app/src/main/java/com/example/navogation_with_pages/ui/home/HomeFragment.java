@@ -37,7 +37,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onChanged(ArrayList<Zone> zones) {
                 adapter.setZones(zones);
-                adapter.notifyDataSetChanged();
             }
         });
 
