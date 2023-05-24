@@ -6,26 +6,27 @@
     android:layout_height="match_parent"
     android:id="@+id/home"
     tools:context=".ui.home.HomeFragment"
-    android:paddingHorizontal="10dp">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/home_txt"
-        android:layout_centerHorizontal="true"
-        android:text="Home"
-        android:textSize="50dp"/>
+    >
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/home_txt"
+        android:layout_above="@+id/hold"
         android:id="@+id/zonesRecView"
         >
 
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/hold"
+        android:layout_alignParentBottom="true"
+        android:text="HOLD"
+        android:textSize="50dp"
+        />
 
 
 </RelativeLayout>

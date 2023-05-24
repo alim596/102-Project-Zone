@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:padding="15dp">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/zoneCrdView"
@@ -14,7 +15,6 @@
         app:cardBackgroundColor="@color/purple_200"
         app:cardCornerRadius="10dp"
         app:cardElevation="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -66,11 +66,10 @@
                     android:id="@+id/category"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@+id/quota"
                     android:layout_marginRight="10dp"
-                    android:textStyle="bold|italic"
+                    android:layout_toLeftOf="@+id/quota"
                     android:text="Sport"
-                    />
+                    android:textStyle="bold|italic" />
 
                 <TextView
                     android:id="@+id/date"
@@ -106,15 +105,15 @@
                         android:id="@+id/participantsContainer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:layout_below="@+id/divider"
+                        android:orientation="horizontal"
                         android:paddingHorizontal="5dp">
 
                     </LinearLayout>
 
                     <Button
-                        style="@style/Widget.Material3.Button.ElevatedButton"
                         android:id="@+id/requestBtn"
+                        style="@style/Widget.Material3.Button.ElevatedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/participantsContainer"
