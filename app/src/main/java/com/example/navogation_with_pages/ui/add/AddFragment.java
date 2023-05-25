@@ -131,7 +131,7 @@ public class AddFragment extends Fragment {
                 Zone zone = new Zone(name.getText().toString(), quotaValue, dateStr, details.getText().toString(),
                         location.getText().toString(), publicPrivate.getCheckedRadioButtonId(),
                         imageUrl.getText().toString(), category);
-                zone.addParticipant(MainActivity.user3);
+                zone.addParticipant(MainActivity.allUsers.get(2));
                 // Save the zone to the database
                 homeViewModel.getDB().collection("zone").add(zone)
                         .addOnSuccessListener(documentReference -> {

@@ -13,18 +13,19 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="72dp"
         android:layout_marginTop="140dp"
-        android:text="Username"
+        android:text="E-Mail"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/zoneLogo" />
 
     <EditText
-        android:id="@+id/usernameTextField2"
-        android:layout_width="218dp"
+        android:id="@+id/emailField2"
+        android:layout_width="280dp"
         android:layout_height="35dp"
         android:layout_marginTop="168dp"
         android:background="@drawable/custom_input_textfield"
-        android:drawableStart="@drawable/ic_user"
+        android:drawableStart="@drawable/ic_email"
         android:ems="10"
+        android:drawablePadding="5dp"
         android:inputType="textPersonName"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,12 +34,13 @@
 
     <EditText
         android:id="@+id/passwordTextField3"
-        android:layout_width="217dp"
+        android:layout_width="280dp"
         android:layout_height="39dp"
         android:layout_marginTop="4dp"
         android:background="@drawable/custom_input_textfield"
         android:drawableStart="@drawable/ic_lock"
         android:drawableEnd="@drawable/ic_eye"
+        android:drawablePadding="5dp"
         android:ems="10"
         android:inputType="textPassword"
         android:textColor="@color/black"
@@ -57,9 +59,9 @@
         android:onClick="hideInfo2"
         android:text=""
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintHorizontal_bias="0.83"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usernameTextField2" />
+        app:layout_constraintTop_toBottomOf="@+id/emailField2" />
 
     <TextView
         android:id="@+id/textView4"
@@ -70,7 +72,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.212"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usernameTextField2" />
+        app:layout_constraintTop_toBottomOf="@+id/emailField2" />
 
     <ImageButton
         android:id="@+id/signUpButton2"
@@ -99,12 +101,12 @@
         android:id="@+id/zoneLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

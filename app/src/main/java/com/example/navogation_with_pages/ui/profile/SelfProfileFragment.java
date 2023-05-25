@@ -15,6 +15,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -38,10 +39,10 @@ public class SelfProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_profile, null);
-
+        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
         recyclerView = (RecyclerView)(root.findViewById(R.id.PreviousZonesRecView));
         biography = (TextView) root.findViewById(R.id.biographyDisplay);
-        name = (TextView) root.findViewById(R.id.OtherUsernameDisplay);
+        name = (TextView) root.findViewById(R.id.UsernameDisplay);
         biography.setText(user.getBiography());
         name.setText(user.getUsername());
 

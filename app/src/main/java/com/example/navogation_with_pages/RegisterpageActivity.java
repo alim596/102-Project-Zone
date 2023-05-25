@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
@@ -15,10 +16,16 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.w3c.dom.Text;
 
 public class RegisterpageActivity extends AppCompatActivity {
+
+    private FirebaseAuth mAuth;
 
     EditText password1;
 
@@ -33,10 +40,11 @@ public class RegisterpageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //A feeble attempt to remove the titlebar...
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getSupportActionBar().hide();
         setContentView(R.layout.registerpage);
+
+        mAuth = FirebaseAuth.getInstance();
+
         //set the password Input types
         password1 = ((EditText)findViewById(R.id.passwordTextField));
         password2 = ((EditText)findViewById(R.id.passwordTextField2));
@@ -46,18 +54,37 @@ public class RegisterpageActivity extends AppCompatActivity {
         ((EditText)findViewById(R.id.passwordTextField2)).setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
     }
 
-    // Signup logic is not fully implemented
+    // todo Signup logic is not fully implemented
     public void signUp(View v){
-        String emailString = emailField.getText().toString();
+        String email = emailField.getText().toString();
         String usernameString = usernameField.getText().toString();
         String password1string = password1.getText().toString();
         String password2string = password2.getText().toString();
         if(!password1string.equals(password2string)){
             (Toast.makeText(this,"Passwords are different from each other!",Toast.LENGTH_SHORT)).show();
         }
+        else if(password1string.equals("") || usernameString.equals("") || email.equals("")){
+            (Toast.makeText(this,"Input fields cannot be empty!",Toast.LENGTH_SHORT)).show();
+        }
         else{
-            MainActivity.allUsers.add(new User(emailString,password1string,emailString));
-            (Toast.makeText(this,"Account successfully created!",Toast.LENGTH_SHORT)).show();
+            String password = password1string;
+            mAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(getApplicationContext(), "Registration successful!", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(RegisterpageActivity.this, SignInPageActivity.class);
+                                (Toast.makeText(RegisterpageActivity.this,"Account successfully created!",Toast.LENGTH_SHORT)).show();
+                                startActivity(intent);
+                            }
+                            else {
+                                Toast.makeText(getApplicationContext(), "Registration failed! Please try again later", Toast.LENGTH_LONG).show();
+
+                            }
+                        }
+                    });
+
         }
     }
 

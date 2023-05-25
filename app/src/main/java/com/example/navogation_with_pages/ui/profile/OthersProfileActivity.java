@@ -29,6 +29,7 @@ public class OthersProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_others_profile);
 
         recyclerView = (RecyclerView)(findViewById(R.id.OtherPreviousZonesRecView));
@@ -39,7 +40,7 @@ public class OthersProfileActivity extends AppCompatActivity {
 
 
         Intent i = getIntent();
-        int userID = i.getIntExtra("ID",0);
+        int userID = i.getIntExtra("ID",1);
 
         user = MainActivity.allUsers.get(userID);
         name.setText(user.getUsername());

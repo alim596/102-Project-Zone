@@ -4,32 +4,74 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.InputType;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class SignInPageActivity extends AppCompatActivity {
     private boolean isPassword3Visible = false;
+
+    private EditText emailField;
+
+    private EditText passwordField;
+
+    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //A feeble attempt to remove the titlebar...
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_sign_in_page);
+        passwordField = findViewById(R.id.passwordTextField3);
+        emailField = findViewById(R.id.emailField2);
+        emailField.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+        mAuth = FirebaseAuth.getInstance();
         ((EditText)findViewById(R.id.passwordTextField3)).setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
     }
     public void registerRedirect(View view){
 
-        Intent myIntent = new Intent(this, RegisterpageActivity.class);
+        Intent myIntent = new Intent(this, MainActivity.class);
         this.startActivity(myIntent);
+
     }
 
     public void login(View view){
-        Intent myIntent = new Intent(this, MainActivity.class);
-        this.startActivity(myIntent);
+        String email = emailField.getText().toString();
+        String password = passwordField.getText().toString();
+
+        if(email.equals("") || password.equals("")){
+            Toast.makeText(getApplicationContext(), "Please make sure you fill your credentials.", Toast.LENGTH_LONG).show();
+        }
+
+        else{
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_LONG).show();
+
+
+                                Intent myIntent = new Intent(SignInPageActivity.this, MainActivity.class);
+                                SignInPageActivity.this.startActivity(myIntent);
+                            }
+                            else {
+                                Toast.makeText(getApplicationContext(), "Login failed! Please make sure your credentials are correct.", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+        }
+
+
+
     }
     public void hideInfo2(View view){
         EditText text;

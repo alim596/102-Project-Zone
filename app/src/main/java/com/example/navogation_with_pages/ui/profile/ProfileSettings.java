@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.navogation_with_pages.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -33,6 +34,7 @@ public class ProfileSettings extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.profile_editpage);
         newUsername = findViewById(R.id.editUsername);
         newBiography = findViewById(R.id.editBiography);
@@ -46,12 +48,23 @@ public class ProfileSettings extends AppCompatActivity {
     }
 
     public void applyChanges(View v) {
-        String newUsernameText = String.valueOf(newUsername.getText());
-        String newBiographyText = String.valueOf(newBiography.getText());
-        i.putExtra("username", newUsernameText);
-        i.putExtra("biography", newBiographyText);
-        setResult(RESULT_OK, i);
-        finish();
+        if(String.valueOf(newUsername.getText()).length() > 40 || String.valueOf(newBiography.getText()).length() > 200){
+            if(String.valueOf(newUsername.getText()).length() > 40){
+                (Toast.makeText(this,"Username over 40 spaces!",Toast.LENGTH_SHORT)).show();
+            }
+            else if(String.valueOf(newBiography.getText()).length() > 200){
+                (Toast.makeText(this,"Biography over 200 spaces!",Toast.LENGTH_SHORT)).show();
+            }
+        }
+        else{
+            String newUsernameText = String.valueOf(newUsername.getText());
+            String newBiographyText = String.valueOf(newBiography.getText());
+            i.putExtra("username", newUsernameText);
+            i.putExtra("biography", newBiographyText);
+            setResult(RESULT_OK, i);
+            finish();
+        }
+
     }
 
 }
