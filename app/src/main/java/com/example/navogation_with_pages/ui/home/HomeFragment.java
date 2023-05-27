@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.navogation_with_pages.R;
-import com.example.navogation_with_pages.Zone;
-import com.example.navogation_with_pages.ZonesRecViewAdapter;
+import com.example.navogation_with_pages.ui.object_classes.Zone;
+import com.example.navogation_with_pages.ui.adapters.ZonesRecViewAdapter;
 
 import java.util.ArrayList;
 

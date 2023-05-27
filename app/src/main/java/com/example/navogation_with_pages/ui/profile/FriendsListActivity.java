@@ -1,25 +1,26 @@
 package com.example.navogation_with_pages.ui.profile;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.User;
-import com.example.navogation_with_pages.MainActivity;
+import com.example.navogation_with_pages.ui.adapters.FriendsAdapter;
+import com.example.navogation_with_pages.ui.object_classes.User;
+import com.example.navogation_with_pages.ui.object_classes.OnGetUserListener;
 import com.example.navogation_with_pages.R;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 
 import java.util.ArrayList;
 
 public class FriendsListActivity extends AppCompatActivity {
     private ListView friendsListView;
+
     private TextView text;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,17 +28,34 @@ public class FriendsListActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.friends_recylclerview);
 
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+
+
+
         text = findViewById(R.id.friendsOfText);
         friendsListView = findViewById(R.id.FriendsListView);
 
         Intent i = getIntent();
-        int ID = i.getIntExtra("ID",0);
-        ArrayList<User> friends = MainActivity.allUsers.get(ID).getFriends();
-        if(friends.size() == 0){
-            text.setText(MainActivity.allUsers.get(ID).getUsername() + " has no friends.");
+        String ID = i.getStringExtra("ID");
+
+        User.getUser(ID, new OnGetUserListener() {
+            @Override
+            public void onSuccess(User user) {
+                FriendsListActivity.this.setup(user);
+            }
+        });
+
+
+
+    }
+    private void setup(User user1){
+        ArrayList<User> friends = user1.getFriends();
+        if(friends == null || friends.size() == 0 ) {
+            text.setText(user1.getUsername() + " has no friends.");
         }
+
         else {
-            text.setText("Friends of " + MainActivity.allUsers.get(ID).getUsername());
+            text.setText("Friends of " + user1.getUsername());
         }
 
 

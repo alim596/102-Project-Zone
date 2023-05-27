@@ -1,9 +1,7 @@
-package com.example.navogation_with_pages;
-
-import com.User;
+package com.example.navogation_with_pages.ui.object_classes;
 
 import java.util.ArrayList;
-import java.util.Date;
+
 public class Zone {
     private String name;
     private int quota;

@@ -1,4 +1,4 @@
-package com.example.navogation_with_pages;
+package com.example.navogation_with_pages.ui.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +8,9 @@ import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.navogation_with_pages.R;
+import com.example.navogation_with_pages.ui.object_classes.Notification;
 
 import java.util.List;
 

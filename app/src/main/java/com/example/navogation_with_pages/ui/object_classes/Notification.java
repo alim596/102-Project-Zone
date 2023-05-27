@@ -1,4 +1,4 @@
-package com.example.navogation_with_pages;
+package com.example.navogation_with_pages.ui.object_classes;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

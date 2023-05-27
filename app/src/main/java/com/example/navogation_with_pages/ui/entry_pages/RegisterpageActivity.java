@@ -1,31 +1,37 @@
-package com.example.navogation_with_pages;
+package com.example.navogation_with_pages.ui.entry_pages;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.text.Editable;
 import android.text.InputType;
-import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.User;
+import com.example.navogation_with_pages.MainActivity;
+import com.example.navogation_with_pages.R;
+import com.example.navogation_with_pages.ui.object_classes.User;
+import com.example.navogation_with_pages.ui.object_classes.Zone;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
-import org.w3c.dom.Text;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegisterpageActivity extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
+    private FirebaseAuth fAuth;
+
+    private FirebaseFirestore fStore;
 
     EditText password1;
 
@@ -39,11 +45,22 @@ public class RegisterpageActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+        fAuth = FirebaseAuth.getInstance();
+
+        fStore = FirebaseFirestore.getInstance();
+
+
+
+        if(fAuth.getCurrentUser() != null){
+            Intent myIntent = new Intent(this, MainActivity.class);
+            this.startActivity(myIntent);
+        }
+
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.registerpage);
-
-        mAuth = FirebaseAuth.getInstance();
 
         //set the password Input types
         password1 = ((EditText)findViewById(R.id.passwordTextField));
@@ -66,16 +83,37 @@ public class RegisterpageActivity extends AppCompatActivity {
         else if(password1string.equals("") || usernameString.equals("") || email.equals("")){
             (Toast.makeText(this,"Input fields cannot be empty!",Toast.LENGTH_SHORT)).show();
         }
+        else if(password1string.length() < 6){
+            (Toast.makeText(this,"Password length should be at least 6 characters!",Toast.LENGTH_SHORT)).show();
+        }
         else{
             String password = password1string;
-            mAuth.createUserWithEmailAndPassword(email, password)
+            fAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 Toast.makeText(getApplicationContext(), "Registration successful!", Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(RegisterpageActivity.this, SignInPageActivity.class);
+                                String userID = fAuth.getUid();
                                 (Toast.makeText(RegisterpageActivity.this,"Account successfully created!",Toast.LENGTH_SHORT)).show();
+                                Map<String, Object> user = new HashMap<>();
+                                user.put("username",usernameString);
+                                user.put("email", email);
+                                user.put("password", password);
+                                user.put("friends", new ArrayList<User>());
+                                user.put("biography","");
+                                user.put("averageRating", 0.0);
+                                user.put("ratingCount", 0.0);
+                                user.put("previousZones", new ArrayList<Zone>());
+                                user.put("ID", userID);
+                                DocumentReference documentReference = fStore.collection("users").document(userID);
+                                documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        Log.d("TAG","SUCCESS," + userID);
+                                    }
+                                });
                                 startActivity(intent);
                             }
                             else {

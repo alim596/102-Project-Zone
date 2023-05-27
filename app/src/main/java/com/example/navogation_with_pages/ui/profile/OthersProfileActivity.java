@@ -5,18 +5,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.drawable.Icon;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.navogation_with_pages.MainActivity;
+import com.example.navogation_with_pages.ui.object_classes.OnGetUserListener;
 import com.example.navogation_with_pages.R;
-import com.User;
-import com.example.navogation_with_pages.ZonesRecViewAdapter2;
+import com.example.navogation_with_pages.ui.object_classes.User;
+import com.example.navogation_with_pages.ui.adapters.ZonesRecViewAdapter2;
+import com.example.navogation_with_pages.ui.object_classes.Zone;
 
 public class OthersProfileActivity extends AppCompatActivity {
     private User user;
@@ -38,15 +37,22 @@ public class OthersProfileActivity extends AppCompatActivity {
         this.profilePic = findViewById(R.id.OtherProfilePictureDisplay);
 
 
-
         Intent i = getIntent();
-        int userID = i.getIntExtra("ID",1);
+        String userID = i.getStringExtra("ID");
 
-        user = MainActivity.allUsers.get(userID);
+        User.getUser(userID, new OnGetUserListener() {
+            @Override
+            public void onSuccess(User user) {
+                OthersProfileActivity.this.setup(user);
+            }
+        });
+
+
+    }
+    private void setup(User user){
         name.setText(user.getUsername());
         biography.setText(user.getBiography());
-        Icon icon = Icon.createWithFilePath(user.getProfilePicture());
-        profilePic.setImageIcon(icon);
+
         Button friendsButton = (Button) findViewById(R.id.OtherFriendsButton);
         friendsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,7 +63,7 @@ public class OthersProfileActivity extends AppCompatActivity {
             }
         });
 
-        com.example.navogation_with_pages.Zone zone = new com.example.navogation_with_pages.Zone("OtherProfiles", 1, "","asdasdasdasd","East Campus",2,"asd", "sport");
+        Zone zone = new Zone("OtherProfiles", 1, "","asdasdasdasd","East Campus",2,"asd", "sport");
         user.addPreviousZone(zone);
         ZonesRecViewAdapter2 adapter = new ZonesRecViewAdapter2();
         recyclerView.setAdapter(adapter);

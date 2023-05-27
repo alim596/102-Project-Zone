@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.navogation_with_pages.R;
-import com.example.navogation_with_pages.NotRecyAdap;
+import com.example.navogation_with_pages.ui.adapters.NotRecyAdap;
 import com.example.navogation_with_pages.databinding.FragmentNotificationsBinding;
 
 
