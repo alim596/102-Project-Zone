@@ -1,23 +1,17 @@
 package com.example.navogation_with_pages.ui.home;
 
 import android.util.Log;
-import androidx.annotation.Nullable;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import com.example.navogation_with_pages.Zone;
-import com.example.navogation_with_pages.ui.add.AddFragment;
-import com.google.firebase.firestore.CollectionReference;
+import com.example.navogation_with_pages.ui.object_classes.Zone;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.EventListener;
-import java.util.Objects;
 
 
 public class HomeViewModel extends ViewModel {

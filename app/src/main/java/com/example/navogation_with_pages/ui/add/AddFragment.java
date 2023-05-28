@@ -11,24 +11,21 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import com.User;
+
 import com.example.navogation_with_pages.MainActivity;
 import com.example.navogation_with_pages.R;
-import com.example.navogation_with_pages.Zone;
+import com.example.navogation_with_pages.ui.object_classes.OnGetUserListener;
+import com.example.navogation_with_pages.ui.object_classes.User;
+import com.example.navogation_with_pages.ui.object_classes.Zone;
 import com.example.navogation_with_pages.databinding.FragmentAddBinding;
 import com.example.navogation_with_pages.ui.home.HomeViewModel;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import java.util.ArrayList;
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.Calendar;
 
 public class AddFragment extends Fragment {
@@ -131,26 +128,36 @@ public class AddFragment extends Fragment {
                 Zone zone = new Zone(name.getText().toString(), quotaValue, dateStr, details.getText().toString(),
                         location.getText().toString(), publicPrivate.getCheckedRadioButtonId(),
                         imageUrl.getText().toString(), category);
-                zone.addParticipant(MainActivity.user3);
-                // Save the zone to the database
-                homeViewModel.getDB().collection("zone").add(zone)
-                        .addOnSuccessListener(documentReference -> {
-                            String zoneId = documentReference.getId();
-                            Log.d("TAG", "Zone added with ID: " + zoneId);
-                        })
-                        .addOnFailureListener(e -> {
-                            Log.w("TAG", "Error adding zone", e);
-                        });
 
-                // Show success message
-                Toast.makeText(getContext(), "Zone added successfully", Toast.LENGTH_SHORT).show();
 
-                // Clear the input fields
-                name.setText("");
-                location.setText("");
-                details.setText("");
-                quota.setText("");
-                imageUrl.setText("");
+                FirebaseAuth fAuth = FirebaseAuth.getInstance();
+                User.getUser(fAuth.getCurrentUser().getUid(), new OnGetUserListener() {
+                    @Override
+                    public void onSuccess(User user) {
+                        zone.addParticipant(user);
+                        // Save the zone to the database
+                        homeViewModel.getDB().collection("zone").add(zone)
+                                .addOnSuccessListener(documentReference -> {
+                                    String zoneId = documentReference.getId();
+                                    Log.d("TAG", "Zone added with ID: " + zoneId);
+                                })
+                                .addOnFailureListener(e -> {
+                                    Log.w("TAG", "Error adding zone", e);
+                                });
+
+                        // Show success message
+                        Toast.makeText(getContext(), "Zone added successfully", Toast.LENGTH_SHORT).show();
+
+                        // Clear the input fields
+                        name.setText("");
+                        location.setText("");
+                        details.setText("");
+                        quota.setText("");
+                        imageUrl.setText("");
+                    }
+                });
+
+
             }
         });
 

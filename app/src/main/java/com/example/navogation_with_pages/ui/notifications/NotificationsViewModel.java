@@ -1,10 +1,7 @@
 package com.example.navogation_with_pages.ui.notifications;
 
-import android.widget.Button;
-
 import androidx.lifecycle.ViewModel;
-import com.example.navogation_with_pages.Notification;
-import com.example.navogation_with_pages.R;
+import com.example.navogation_with_pages.ui.object_classes.Notification;
 
 import java.util.ArrayList;
 import java.util.List;

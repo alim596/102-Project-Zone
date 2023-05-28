@@ -1,18 +1,14 @@
 package com.example.navogation_with_pages;
 
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.transition.AutoTransition;
-import android.transition.TransitionManager;
-import android.util.AttributeSet;
-import android.view.View;
-import android.widget.ExpandableListAdapter;import com.google.firebase.FirebaseApp;
+
 import android.widget.RelativeLayout;
 
-import com.User;
+import com.example.navogation_with_pages.ui.entry_pages.SignInPageActivity;
+import com.example.navogation_with_pages.ui.object_classes.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -22,18 +18,26 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.navogation_with_pages.databinding.ActivityMainBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    private FirebaseAuth fAuth;
+
+    private FirebaseFirestore fStore;
+
     private CardView cardView;
     private RelativeLayout hiddenLayout;
 
-    public static ArrayList<User> allUsers = new ArrayList<User>();
-    public static User user1 = new User("Ada Güder","asdasd","asdasdasdasd");
-    public static User user2 = new User("Toprak Kekin","asdasd","asdasdasdasd");
-    public static User user3 = new User("Orhun Güder","epicpassword","orhun.guder@ug.bilkent.edu.tr");
+    public static User user;
     private ActivityMainBinding binding;
 
 
@@ -44,18 +48,27 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        allUsers.add(user1);
-        allUsers.add(user2);
-        allUsers.add(user3);
-        user1.addFriend(user2);
-        user1.addFriend(user3);
-        user2.addFriend(user1);
-        user1.setBiography("The most perfect biography");
-        user2.setBiography("I LOVE GAMING I LOVE GAMING I LOVE GAMING I LOVE GAMING I LOVE GAMING I LOVE GAMING I LOVE GAMING I LOVE GAMING ");
-        user3.setBiography("This is a relatively normal biography compared to the one above.");
-        user1.setProfilePicture("user1.jpg");
-        user2.setProfilePicture("user2.jpg");
-        user3.setProfilePicture("user3.png");
+        fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
+
+        //Below code retrieves user information from database.
+        String userID = fAuth.getCurrentUser().getUid();
+        DocumentReference documentReference = fStore.collection("users").document(userID);
+        if(documentReference == null){
+            fAuth.signOut();
+            Intent i = new Intent(this, SignInPageActivity.class);
+            startActivity(i);
+        }
+        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                user = new User(value.getString("username"),value.getString("password"),value.getString("email"),value.getString("ID"));
+                user.setBiography(value.getString("biography"));
+                user.setAverageRating(value.getDouble("averageRating"));
+                user.setRatingCount(value.getDouble("ratingCount"));
+                user.setFriends((ArrayList<User>) value.get("friends"));
+            }
+        });
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each

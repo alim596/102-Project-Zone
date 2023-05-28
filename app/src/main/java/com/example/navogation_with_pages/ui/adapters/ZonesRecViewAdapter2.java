@@ -1,6 +1,5 @@
-package com.example.navogation_with_pages;
+package com.example.navogation_with_pages.ui.adapters;
 
-import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.navogation_with_pages.R;
+import com.example.navogation_with_pages.ui.object_classes.Zone;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

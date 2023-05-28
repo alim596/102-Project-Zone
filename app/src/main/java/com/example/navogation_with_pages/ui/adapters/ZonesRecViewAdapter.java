@@ -1,4 +1,4 @@
-package com.example.navogation_with_pages;
+package com.example.navogation_with_pages.ui.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -12,12 +12,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import com.User;
+
+import com.example.navogation_with_pages.R;
+import com.example.navogation_with_pages.ui.object_classes.User;
 import com.example.navogation_with_pages.ui.profile.OthersProfileActivity;
 import com.squareup.picasso.Picasso;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+<<<<<<< HEAD:app/src/main/java/com/example/navogation_with_pages/ZonesRecViewAdapter.java
 import com.example.navogation_with_pages.R;
 import com.example.navogation_with_pages.Zone;
 
@@ -27,6 +30,11 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+=======
+
+import com.example.navogation_with_pages.ui.object_classes.Zone;
+import java.util.ArrayList;
+>>>>>>> master:app/src/main/java/com/example/navogation_with_pages/ui/adapters/ZonesRecViewAdapter.java
 
 public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapter.ViewHolder> {
 
