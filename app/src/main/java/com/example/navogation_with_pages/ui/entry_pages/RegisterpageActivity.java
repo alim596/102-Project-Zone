@@ -1,5 +1,7 @@
 package com.example.navogation_with_pages.ui.entry_pages;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -16,16 +18,20 @@ import com.example.navogation_with_pages.R;
 import com.example.navogation_with_pages.ui.object_classes.User;
 import com.example.navogation_with_pages.ui.object_classes.Zone;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RegisterpageActivity extends AppCompatActivity {
 
@@ -53,7 +59,7 @@ public class RegisterpageActivity extends AppCompatActivity {
 
 
 
-        if(fAuth.getCurrentUser() != null){
+        if(fAuth.getCurrentUser() != null && fAuth.getCurrentUser().isEmailVerified()){
             Intent myIntent = new Intent(this, MainActivity.class);
             this.startActivity(myIntent);
         }
@@ -87,41 +93,91 @@ public class RegisterpageActivity extends AppCompatActivity {
             (Toast.makeText(this,"Password length should be at least 6 characters!",Toast.LENGTH_SHORT)).show();
         }
         else{
-            String password = password1string;
-            fAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(getApplicationContext(), "Registration successful!", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(RegisterpageActivity.this, SignInPageActivity.class);
-                                String userID = fAuth.getUid();
-                                (Toast.makeText(RegisterpageActivity.this,"Account successfully created!",Toast.LENGTH_SHORT)).show();
-                                Map<String, Object> user = new HashMap<>();
-                                user.put("username",usernameString);
-                                user.put("email", email);
-                                user.put("password", password);
-                                user.put("friends", new ArrayList<User>());
-                                user.put("biography","");
-                                user.put("averageRating", 0.0);
-                                user.put("ratingCount", 0.0);
-                                user.put("previousZones", new ArrayList<Zone>());
-                                user.put("ID", userID);
-                                DocumentReference documentReference = fStore.collection("users").document(userID);
-                                documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void unused) {
-                                        Log.d("TAG","SUCCESS," + userID);
-                                    }
-                                });
-                                startActivity(intent);
-                            }
-                            else {
-                                Toast.makeText(getApplicationContext(), "Registration failed! Please try again later", Toast.LENGTH_LONG).show();
 
+            // Define the regex patterns for the email formats. Below code checks if the email is in one of these formats.
+            String[] emailFormats = {
+                    "^[a-zA-Z0-9._%+-]+@cs\\.bilkent\\.edu\\.tr$",
+                    "^[a-zA-Z0-9._%+-]+@gmail\\.com$",
+                    "^[a-zA-Z0-9._%+-]+@ee\\.bilkent\\.edu\\.tr$",
+                    "^[a-zA-Z0-9._%+-]+@fen\\.bilkent\\.edu\\.tr$",
+                    "^[a-zA-Z0-9._%+-]+@unam\\.bilkent\\.edu\\.tr$",
+                    "^[a-zA-Z0-9._%+-]+@alumni\\.bilkent\\.edu\\.tr$",
+                    "^[a-zA-Z0-9._%+-]+@ug\\.bilkent\\.edu\\.tr$",
+                    "^[a-zA-Z0-9._%+-]+@bilkenterbil\\.org$",
+                    "^[a-zA-Z0-9._%+-]+@me\\.bilkent\\.edu\\.tr$",
+                    "^[a-zA-Z0-9._%+-]+@ctp\\.bilkent\\.edu\\.tr$",
+                    "^[a-zA-Z0-9._%+-]+@bim\\.bilkent\\.edu\\.tr$",
+                    "^[a-zA-Z0-9._%+-]+@tourism\\.bilkent\\.edu\\.tr$"
+            };
+
+            // Check if the email matches any of the formats
+            boolean isMatch = false;
+            for (String format : emailFormats) {
+                Pattern pattern = Pattern.compile(format);
+                Matcher matcher = pattern.matcher(email);
+                if (matcher.matches()) {
+                    isMatch = true;
+                    break;
+                }
+            }
+
+            // Logic after determining if the email is in bilkent format.
+            if (isMatch) {
+                String password = password1string;
+                fAuth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    FirebaseUser fuser = fAuth.getCurrentUser();
+                                    fuser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            Toast.makeText(getApplicationContext(), "Verification E-Mail has been sent.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@androidx.annotation.NonNull Exception e) {
+                                            Log.d("ERRORS","Email not sent: " + e.getMessage());
+                                            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+
+
+                                    Intent intent = new Intent(RegisterpageActivity.this, SignInPageActivity.class);
+                                    String userID = fAuth.getUid();
+                                    (Toast.makeText(RegisterpageActivity.this,"Account successfully created!",Toast.LENGTH_SHORT)).show();
+                                    Map<String, Object> user = new HashMap<>();
+                                    user.put("username",usernameString);
+                                    user.put("email", email);
+                                    user.put("password", password);
+                                    user.put("friends", new ArrayList<User>());
+                                    user.put("biography","");
+                                    user.put("averageRating", 0.0);
+                                    user.put("ratingCount", 0.0);
+                                    user.put("previousZones", new ArrayList<Zone>());
+                                    user.put("ID", userID);
+                                    user.put("friendIDs", new ArrayList<String>());
+                                    DocumentReference documentReference = fStore.collection("users").document(userID);
+                                    documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            Log.d("TAG","SUCCESS," + userID);
+                                        }
+                                    });
+                                    Toast.makeText(getApplicationContext(), "Registration successful!", Toast.LENGTH_LONG).show();
+                                    startActivity(intent);
+                                }
+                                else {
+                                    Toast.makeText(getApplicationContext(), "Registration failed! Please try again later", Toast.LENGTH_LONG).show();
+
+                                }
                             }
-                        }
-                    });
+                        });
+            } else {
+                Toast.makeText(getApplicationContext(), "This is not a valid bilkent e-mail.", Toast.LENGTH_LONG).show();
+            }
+
 
         }
     }
