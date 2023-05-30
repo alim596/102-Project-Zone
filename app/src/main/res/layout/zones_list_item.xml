@@ -28,9 +28,10 @@
             <ImageView
                 android:id="@+id/image"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="200dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/img" />
+                android:src="@drawable/img"
+                />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -47,12 +48,13 @@
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
+
                 <TextView
                     android:id="@+id/location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/name"
                     android:text="Main Campus"
+                    android:layout_below="@id/name"
                     android:textStyle="bold" />
 
                 <TextView

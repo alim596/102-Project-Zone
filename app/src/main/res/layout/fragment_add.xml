@@ -139,7 +139,8 @@
                 android:src="@drawable/img"
                 android:clickable="true"
                 android:layout_below="@id/imgTxt"
-                android:paddingTop="5dp"/>
+                android:paddingTop="5dp"
+                />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/post_button"
