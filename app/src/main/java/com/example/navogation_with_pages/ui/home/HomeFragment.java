@@ -1,5 +1,6 @@
 package com.example.navogation_with_pages.ui.home;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,11 +21,17 @@ import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
+    private ProgressDialog dialog;
     private HomeViewModel homeViewModel;
     private ZonesRecViewAdapter adapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        dialog = new ProgressDialog(this.getContext());
+        dialog.setMessage("Loading Home...");
+        dialog.setCancelable(false);
+        dialog.setInverseBackgroundForced(false);
+        dialog.show();
         homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
@@ -36,7 +43,7 @@ public class HomeFragment extends Fragment {
         homeViewModel.getZones().observe(getViewLifecycleOwner(), new Observer<ArrayList<Zone>>() {
             @Override
             public void onChanged(ArrayList<Zone> zones) {
-                adapter.setZones(zones);
+                adapter.setZones(zones,dialog);
             }
         });
 

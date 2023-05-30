@@ -201,6 +201,7 @@
             double average = userToRate.getAverageRating();
             double ratingCount = userToRate.getRatingCount();
             double averageR = ((average)*ratingCount + rating)/(ratingCount + 1);
+            userToRate.setAverageRating(averageR);
             String userID = userToRate.getID();
 
             FirebaseFirestore fStore = FirebaseFirestore.getInstance();

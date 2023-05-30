@@ -2,10 +2,14 @@ package com.example.navogation_with_pages.ui.profile;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,6 +26,11 @@ import com.example.navogation_with_pages.ui.object_classes.OnGetUsersListener;
 import com.example.navogation_with_pages.ui.object_classes.User;
 import com.example.navogation_with_pages.ui.adapters.ZonesRecViewAdapter2;
 import com.example.navogation_with_pages.ui.object_classes.Zone;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -29,6 +38,9 @@ public class OthersProfileActivity extends AppCompatActivity {
     private User user;
     private TextView biography;
 
+    private ProgressDialog dialog;
+
+    private StorageReference firebaseStorage;
     private RecyclerView recyclerView;
 
     private boolean isConfirm = false;
@@ -46,7 +58,14 @@ public class OthersProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_others_profile);
+        Intent i = getIntent();
+        String userID = i.getStringExtra("ID");
+        if(userID.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+            Toast.makeText(OthersProfileActivity.this,"This is your own profile!",Toast.LENGTH_SHORT).show();
+            onBackPressed();
+        }
 
+        firebaseStorage = FirebaseStorage.getInstance().getReference();
         recyclerView = (RecyclerView)(findViewById(R.id.OtherPreviousZonesRecView));
         this.biography = findViewById(R.id.OtherBiographyDisplay);
         this.name = findViewById(R.id.OtherUsernameDisplay);
@@ -55,8 +74,7 @@ public class OthersProfileActivity extends AppCompatActivity {
         this.rateButton = findViewById(R.id.rateButton);
         this.averageRatingText = findViewById(R.id.averageRatingText);
 
-        Intent i = getIntent();
-        String userID = i.getStringExtra("ID");
+
 
         User.getUser(userID, new OnGetUserListener() {
             @Override
@@ -71,9 +89,12 @@ public class OthersProfileActivity extends AppCompatActivity {
     //TODO: implement logic to check wheteher this user has already rated this user.
     private void rateUser(User userRating, User usertoBeRated, double rating){
         userRating.rateUser(usertoBeRated,rating);
+        String avRating = String.format("%.2f", usertoBeRated.getAverageRating());
+        averageRatingText.setText("Average Rating: " + avRating + "/5");
     }
 
     private void setup(User user){
+        StorageReference fileRef = firebaseStorage.child("users/" + user.getID() + "/profile.jpg");
         name.setText(user.getUsername());
         biography.setText(user.getBiography());
         String avRating = String.format("%.2f", user.getAverageRating());
@@ -81,6 +102,18 @@ public class OthersProfileActivity extends AppCompatActivity {
 
         Button friendsButton = (Button) findViewById(R.id.OtherFriendsButton);
 
+        fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(profilePic);
+                try {
+                    Thread.sleep(1000);
+
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        });
         User.getCurrentUser(new OnGetUserListener() {
             @Override
             public void onSuccess(User currentUser) {

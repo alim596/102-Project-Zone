@@ -1,5 +1,6 @@
 package com.example.navogation_with_pages.ui.home;
 
+import android.app.ProgressDialog;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -19,12 +20,14 @@ import java.util.ArrayList;
 
 public class HomeViewModel extends ViewModel {
 
+
     private MutableLiveData<ArrayList<Zone>> mZones;
     private final FirebaseFirestore DB =  FirebaseFirestore.getInstance();
     private final StorageReference storageRef = FirebaseStorage.getInstance().getReference();
     private ListenerRegistration zoneListener;
 
     public HomeViewModel() {
+
         mZones = new MutableLiveData<>();
         loadZones();
         listenForZoneChanges();

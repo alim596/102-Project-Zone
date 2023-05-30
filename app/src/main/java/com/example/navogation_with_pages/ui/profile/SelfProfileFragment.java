@@ -2,6 +2,7 @@ package com.example.navogation_with_pages.ui.profile;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -32,37 +34,60 @@ import com.example.navogation_with_pages.ui.object_classes.Zone;
 import com.example.navogation_with_pages.ui.adapters.ZonesRecViewAdapter2;
 import com.example.navogation_with_pages.databinding.FragmentProfileBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.util.Map;
 
 public class SelfProfileFragment extends Fragment {
-
     private FragmentProfileBinding binding;
-
     private RecyclerView recyclerView;
+    private ProgressDialog dialog;
 
     private User user;
     private TextView biography;
-
     private ImageView profilePictureDisplay;
-
     private TextView ratingText;
-
-
+    private StorageReference firebaseStorage;
     private TextView name;
 
     private void setPage(User user){
         biography.setText(user.getBiography());
         name.setText(user.getUsername());
+        StorageReference fileRef = firebaseStorage.child("users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/profile.jpg");
+        fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(profilePictureDisplay);
+                try {
+                    Thread.sleep(1000);
+                    dialog.hide();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                try {
+                    Thread.sleep(1000);
+                    dialog.hide();
+                } catch (InterruptedException ef) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        });
         String avRating = String.format("%.2f", user.getAverageRating());
         ratingText.setText("Average Rating: " + avRating + "/5");
-        Zone zone = new Zone("asd", 1, "","asdasdasdasd","East Campus",2,"asd", "sport");
-        user.addPreviousZone(zone);
         ZonesRecViewAdapter2 adapter = new ZonesRecViewAdapter2();
         recyclerView.setAdapter(adapter);
         adapter.setZones(user.getPreviousZones());
@@ -106,42 +131,47 @@ public class SelfProfileFragment extends Fragment {
                     if(result.getResultCode() == RESULT_OK){
                         Intent intent = result.getData();
                         if(intent!=null){
-                            /*
-                             String newUsername = intent.getStringExtra("username");
-                            String newBiography = intent.getStringExtra("biography");
-                            String userID = intent.getStringExtra("ID");
-
-                            FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-
-                            DocumentReference documentReference = fStore.collection("users").document(userID);
-
-                            documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            Toast.makeText(SelfProfileFragment.this.getContext(),"Uploading image...", Toast.LENGTH_SHORT).show();
+                            Uri imageUri = intent.getData();
+                            StorageReference fileRef = firebaseStorage.child("users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/profile.jpg");
+                            fileRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                 @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-
-                                    Map<String, Object> snapshotValue = task.getResult().getData();
-                                    snapshotValue.replace("username",newUsername);
-                                    snapshotValue.replace("biography",newBiography);
-                                    documentReference.update(snapshotValue);
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            Picasso.get().load(uri).into(profilePictureDisplay);
+                                            Toast.makeText(SelfProfileFragment.this.getContext(),"Image uploaded successfully.",Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(SelfProfileFragment.this.getContext(),"Exception: " + e.getMessage(),Toast.LENGTH_SHORT).show();
                                 }
                             });
-
-                            biography.setText(newBiography);
-                            name.setText(newUsername);
-                             */
-                            Uri imageUri = intent.getData();
-                            profilePictureDisplay.setImageURI(imageUri);
                         }
                     }
                 }
             });
 
+    private void uploadImagetoFireBase() {
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        dialog=new ProgressDialog(this.getContext());
+        dialog.setMessage("Loading Profile...");
+        dialog.setCancelable(false);
+        dialog.setInverseBackgroundForced(false);
+        dialog.show();
+
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_profile, null);
         ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
         String ID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+        firebaseStorage = FirebaseStorage.getInstance().getReference();
         recyclerView = (RecyclerView)(root.findViewById(R.id.PreviousZonesRecView));
         biography = (TextView) root.findViewById(R.id.biographyDisplay);
         name = (TextView) root.findViewById(R.id.UsernameDisplay);

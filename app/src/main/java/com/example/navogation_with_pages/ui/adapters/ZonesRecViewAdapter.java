@@ -1,6 +1,7 @@
 package com.example.navogation_with_pages.ui.adapters;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -137,7 +138,7 @@ public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapte
     }
 
     //sets the zones into the home fragment and handles expired zones too
-    public void setZones(ArrayList<Zone> zones) {
+    public void setZones(ArrayList<Zone> zones, ProgressDialog dialog) {
         ArrayList<Zone> filteredZones = new ArrayList<>();
         for (Zone zone : zones) {
             if (!isEventExpired(zone.getDateAndTime())) {
@@ -146,6 +147,7 @@ public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapte
         }
         this.zones = filteredZones;
         notifyDataSetChanged();
+        dialog.hide();
     }
 
     //This class gives objects that can hold CardView items to add to the home page
