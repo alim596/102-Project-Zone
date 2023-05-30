@@ -6,10 +6,13 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.example.navogation_with_pages.ui.object_classes.Zone;
+import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -18,6 +21,7 @@ public class HomeViewModel extends ViewModel {
 
     private MutableLiveData<ArrayList<Zone>> mZones;
     private final FirebaseFirestore DB =  FirebaseFirestore.getInstance();
+    private final StorageReference storageRef = FirebaseStorage.getInstance().getReference();
     private ListenerRegistration zoneListener;
 
     public HomeViewModel() {
@@ -26,30 +30,38 @@ public class HomeViewModel extends ViewModel {
         listenForZoneChanges();
     }
 
-    public FirebaseFirestore getDB() {
-        return DB;
-    }
-
     public LiveData<ArrayList<Zone>> getZones() {
         return mZones;
     }
 
     private void loadZones() {
-        DB.collection("zone").get().addOnSuccessListener(queryDocumentSnapshots -> {
+        DB.collection("zones").get().addOnSuccessListener(queryDocumentSnapshots -> {
             ArrayList<Zone> zones = new ArrayList<>();
             for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                 Zone zone = documentSnapshot.toObject(Zone.class);
-                zones.add(zone);
+                StorageReference zoneRef = storageRef.child("zones/" + zone.getZoneID() + "/zone.jpg");
+                zoneRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                    zone.setImageUri(uri);
+                    zones.add(zone);
+                    // Notify observers about the updated zones list
+                    mZones.setValue(zones);
+                }).addOnFailureListener(e -> {
+                    Log.e("HomeViewModel", "Error getting download URL for zone: " + zone.getZoneID(), e);
+                    // Add the zone even if the image URL retrieval failed
+                    zones.add(zone);
+                    // Notify observers about the updated zones list
+                    mZones.setValue(zones);
+                });
             }
-            mZones.setValue(zones);
         }).addOnFailureListener(e -> {
             Log.e("HomeViewModel", "Error loading zones", e);
         });
     }
 
+
     //Checks if a new zone is added to the database and reads it so that zones will be added in real time
     private void listenForZoneChanges() {
-        zoneListener = DB.collection("zone").addSnapshotListener((queryDocumentSnapshots, e) -> {
+        zoneListener = DB.collection("zones").addSnapshotListener((queryDocumentSnapshots, e) -> {
             if (e != null) {
                 Log.e("HomeViewModel", "Error listening for zone changes", e);
                 return;

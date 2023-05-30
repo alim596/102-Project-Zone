@@ -74,6 +74,7 @@ public class User {
      * @param key the hash key of the variable that you want to chang in user.
      * @param newValue the new value of the variable.
      */
+
     public void setComponent(String key, Object newValue){
         FirebaseFirestore fStore = FirebaseFirestore.getInstance();
 

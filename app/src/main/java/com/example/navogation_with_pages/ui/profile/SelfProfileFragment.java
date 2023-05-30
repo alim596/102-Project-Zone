@@ -3,6 +3,7 @@ package com.example.navogation_with_pages.ui.profile;
 import static android.app.Activity.RESULT_OK;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,8 +50,6 @@ public class SelfProfileFragment extends Fragment {
     private void setPage(User user){
         biography.setText(user.getBiography());
         name.setText(user.getUsername());
-        Zone zone = new Zone("asd", 1, "","asdasdasdasd","East Campus",2,"asd", "sport");
-        user.addPreviousZone(zone);
         ZonesRecViewAdapter2 adapter = new ZonesRecViewAdapter2();
         recyclerView.setAdapter(adapter);
         adapter.setZones(user.getPreviousZones());

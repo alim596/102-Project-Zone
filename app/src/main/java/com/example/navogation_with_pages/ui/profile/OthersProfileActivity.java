@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -63,8 +64,7 @@ public class OthersProfileActivity extends AppCompatActivity {
             }
         });
 
-        Zone zone = new Zone("OtherProfiles", 1, "","asdasdasdasd","East Campus",2,"asd", "sport");
-        user.addPreviousZone(zone);
+
         ZonesRecViewAdapter2 adapter = new ZonesRecViewAdapter2();
         recyclerView.setAdapter(adapter);
         adapter.setZones(user.getPreviousZones());

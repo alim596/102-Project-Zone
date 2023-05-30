@@ -1,5 +1,6 @@
 package com.example.navogation_with_pages.ui.adapters;
 
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,9 +57,9 @@ public class ZonesRecViewAdapter2 extends RecyclerView.Adapter<ZonesRecViewAdapt
             }
         });
         // Load image into ImageView if imageUrl is not empty or null
-        String imageUrl = zones.get(position).getImageUrl();
-        if (imageUrl != null && !imageUrl.isEmpty()) {
-            Picasso.get().load(imageUrl).into(holder.image);
+        Uri imageUri = zones.get(position).getImageUri();
+        if (imageUri != null) {
+            Picasso.get().load(imageUri).into(holder.image);
         } else {
             // Set default image if imageUrl is empty or null
             holder.image.setImageResource(R.drawable.img);

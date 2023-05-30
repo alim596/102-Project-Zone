@@ -3,6 +3,7 @@ package com.example.navogation_with_pages.ui.adapters;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.example.navogation_with_pages.R;
 import com.example.navogation_with_pages.ui.object_classes.User;
 import com.example.navogation_with_pages.ui.profile.OthersProfileActivity;
@@ -20,21 +20,15 @@ import com.squareup.picasso.Picasso;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-<<<<<<< HEAD:app/src/main/java/com/example/navogation_with_pages/ZonesRecViewAdapter.java
 import com.example.navogation_with_pages.R;
-import com.example.navogation_with_pages.Zone;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-=======
-
 import com.example.navogation_with_pages.ui.object_classes.Zone;
 import java.util.ArrayList;
->>>>>>> master:app/src/main/java/com/example/navogation_with_pages/ui/adapters/ZonesRecViewAdapter.java
 
 public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapter.ViewHolder> {
 
@@ -67,6 +61,7 @@ public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapte
         holder.quota.setText(Integer.toString(zones.get(position).getQuota()));
         holder.date.setText(zones.get(position).getDateAndTime());
         holder.details.setText(zones.get(position).getDetails());
+        holder.location.setText(zones.get(position).getLocation());
         holder.category.setText(zones.get(position).getCategory());
 
 
@@ -108,9 +103,9 @@ public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapte
             }
         });
         // Load image into ImageView if imageUrl is not empty or null
-        String imageUrl = zones.get(position).getImageUrl();
-        if (imageUrl != null && !imageUrl.isEmpty()) {
-            Picasso.get().load(imageUrl).into(holder.image);
+        Uri imageUri = zones.get(position).getImageUri();
+        if (imageUri != null) {
+            Picasso.get().load(imageUri).into(holder.image);
         } else {
             // Set default image if imageUrl is empty or null
             holder.image.setImageResource(R.drawable.img);
@@ -159,6 +154,7 @@ public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapte
         private TextView quota;
         private TextView date;
         private TextView details;
+        private TextView location;
         private ImageView image;
         private TextView category;
         private CardView zoneCrdView;
@@ -173,6 +169,7 @@ public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapte
             date = itemView.findViewById(R.id.date);
             details = itemView.findViewById(R.id.details);
             image = itemView.findViewById(R.id.image);
+            location = itemView.findViewById(R.id.location);
             category = itemView.findViewById(R.id.category);
             hidden = itemView.findViewById(R.id.hidden);
             participantsContainer = itemView.findViewById(R.id.participantsContainer);

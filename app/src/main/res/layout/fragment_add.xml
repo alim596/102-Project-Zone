@@ -103,38 +103,15 @@
                 android:hapticFeedbackEnabled="false"
                 android:headerBackground="#C5F6ED" />
 
-            <RadioGroup
-                android:id="@+id/radioGroup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/date_picker"
-                android:background="#FFFFFF"
-                android:checkedButton="@id/rad_public"
-                android:orientation="horizontal"
-                android:paddingVertical="20dp">
-
-                <com.google.android.material.radiobutton.MaterialRadioButton
-                    android:id="@+id/rad_private"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:text="Private" />
-
-                <com.google.android.material.radiobutton.MaterialRadioButton
-                    android:id="@+id/rad_public"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Public" />
-            </RadioGroup>
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/category"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="20dp"
                 android:hint="Choose Category"
                 app:boxBackgroundColor="#DBDEFA"
-                android:layout_below="@+id/radioGroup"
+                android:layout_below="@+id/date_picker"
                 >
 
                 <AutoCompleteTextView
@@ -145,20 +122,24 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/image_field"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imgTxt"
+                android:text="Choose An Image:"
+                android:textSize="18dp"
+                android:paddingTop="20dp"
+                android:layout_below="@id/category"
+                />
+
+            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter Image URL"
-                android:layout_marginTop="20dp"
-                android:layout_below="@+id/category">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#D3DCF3EE" />
-
-            </com.google.android.material.textfield.TextInputLayout>
+                android:id="@+id/image_field"
+                android:src="@drawable/img"
+                android:clickable="true"
+                android:layout_below="@id/imgTxt"
+                android:paddingTop="5dp"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/post_button"

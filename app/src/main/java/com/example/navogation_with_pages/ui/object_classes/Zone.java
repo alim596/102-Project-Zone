@@ -1,6 +1,9 @@
 package com.example.navogation_with_pages.ui.object_classes;
 
+import android.net.Uri;
+
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Zone {
     private String name;
@@ -8,23 +11,23 @@ public class Zone {
     private String dateAndTime;
     private String details;
     private String location;
-    private int securityID;
-    private String imageUrl;
+    private String imageUriStr;
     private ArrayList<User> participants;
     private String category;
+    private String zoneID;
+
     private ArrayList<String> participantsNames;
 
-    public Zone(String name, int quota, String dateAndTime, String details, String location, int securityID, String imageUrl, String category) {
+    public Zone(String name, int quota, String dateAndTime, String details, String location, String category) {
         this.name = name;
         this.quota = quota;
         this.dateAndTime = dateAndTime;
         this.details = details;
         this.location = location;
-        this.securityID = securityID;
-        this.imageUrl = imageUrl;
         this.category = category;
         this.participants = new ArrayList<>();
         this.participantsNames = new ArrayList<>();
+        this.zoneID = UUID.randomUUID().toString();
     }
     public Zone(){}
     public String getName() {
@@ -49,16 +52,21 @@ public class Zone {
     public String getCategory(){return category;}
     public ArrayList<User> getParticipants(){ return participants; }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public Uri getImageUri() {
+        if(this.imageUriStr != null && !this.imageUriStr.isEmpty()) {
+            return Uri.parse(this.imageUriStr);
+        } else {
+            return null;
+        }
+    }
+
+
+    public String getZoneID(){
+        return zoneID;
     }
 
     public String getLocation() {
         return location;
-    }
-
-    public int getSecurity() {
-        return securityID;
     }
 
     public void setQuota(int quota) { this.quota = quota; }
@@ -75,13 +83,16 @@ public class Zone {
         this.location = location;
     }
 
-    public void setSecurity(int security) {
-        this.securityID = security;
+    public void setImageUri(Uri imageUri) {
+        if(imageUri != null) {
+            this.imageUriStr = imageUri.toString();
+        } else {
+            this.imageUriStr = null;
+        }
     }
 
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setZoneID(String zoneID) {
+        this.zoneID = zoneID;
     }
 
     public void addParticipant(User participant) {
@@ -90,19 +101,5 @@ public class Zone {
 
     }
 
-
-
-    @Override
-    public String toString() {
-        return "Zone{" +
-                "name='" + name + '\'' +
-                ", quota='" + quota + '\'' +
-                ", dateAndTime=" + dateAndTime +
-                ", details='" + details + '\'' +
-                ", location='" + location + '\'' +
-                ", security='" + securityID + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
-                '}';
-    }
 }
 
