@@ -25,6 +25,9 @@ public class FriendsAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
+        if(friends == null){
+            return 0;
+        }
         return friends.size();
     }
 

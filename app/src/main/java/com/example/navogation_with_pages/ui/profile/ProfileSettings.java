@@ -49,12 +49,12 @@ public class ProfileSettings extends AppCompatActivity {
     }
     //todo: make this edit firebase.
     public void applyChanges(View v) {
-        if(String.valueOf(newUsername.getText()).length() > 40 || String.valueOf(newBiography.getText()).length() > 200){
+        if(String.valueOf(newUsername.getText()).length() > 40 || String.valueOf(newBiography.getText()).length() > 130){
             if(String.valueOf(newUsername.getText()).length() > 40){
                 (Toast.makeText(this,"Username over 40 spaces!",Toast.LENGTH_SHORT)).show();
             }
-            else if(String.valueOf(newBiography.getText()).length() > 200){
-                (Toast.makeText(this,"Biography over 200 spaces!",Toast.LENGTH_SHORT)).show();
+            else if(String.valueOf(newBiography.getText()).length() > 130){
+                (Toast.makeText(this,"Biography over 130 spaces!",Toast.LENGTH_SHORT)).show();
             }
         }
         else{

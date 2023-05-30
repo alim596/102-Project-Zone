@@ -64,17 +64,6 @@ public class ProfileFragment extends Fragment {
 
         biography = (TextView) root.findViewById(R.id.biographyDisplay);
         name = (TextView) root.findViewById(R.id.OtherUsernameDisplay);
-
-
-
-
-
-
-
-
-
-
-
         biography.setText(user.getBiography());
         name.setText(user.getUsername());
         ProfileViewModel profileViewModel =
@@ -90,16 +79,5 @@ public class ProfileFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
-    /*
-
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        user = new User("Orhun","epicpassword","orhun.guder@ug.bilkent.edu.tr");
-        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment, null);
-        TextView but = (TextView) root.findViewById(R.id.text);
-    }
-    */
 
 }

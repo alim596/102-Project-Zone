@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -13,9 +14,12 @@ import android.widget.Toast;
 import com.example.navogation_with_pages.MainActivity;
 import com.example.navogation_with_pages.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class SignInPageActivity extends AppCompatActivity {
     private boolean isPassword3Visible = false;
@@ -57,9 +61,29 @@ public class SignInPageActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                Intent myIntent = new Intent(SignInPageActivity.this, MainActivity.class);
-                                SignInPageActivity.this.startActivity(myIntent);
-                                Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_LONG).show();
+                                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                                if(!firebaseUser.isEmailVerified()){
+                                    FirebaseAuth.getInstance().signOut();
+                                    firebaseUser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            Toast.makeText(getApplicationContext(), "This account is not yet verified. Verification E-Mail has been sent.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@androidx.annotation.NonNull Exception e) {
+                                            Log.d("ERRORS","Email not sent: " + e.getMessage());
+                                            Toast.makeText(getApplicationContext(), "This account is not verified, but another mail cannot be sent. " +e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+
+                                }
+                                else{
+                                    Intent myIntent = new Intent(SignInPageActivity.this, MainActivity.class);
+                                    SignInPageActivity.this.startActivity(myIntent);
+                                    Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_LONG).show();
+                                }
+
                             }
                             else {
                                 Toast.makeText(getApplicationContext(), "Login failed! Please make sure your credentials are correct.", Toast.LENGTH_LONG).show();

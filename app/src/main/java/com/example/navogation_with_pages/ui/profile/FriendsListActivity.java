@@ -10,13 +10,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.navogation_with_pages.ui.adapters.FriendsAdapter;
+import com.example.navogation_with_pages.ui.object_classes.OnGetUsersListener;
 import com.example.navogation_with_pages.ui.object_classes.User;
 import com.example.navogation_with_pages.ui.object_classes.OnGetUserListener;
 import com.example.navogation_with_pages.R;
+import com.example.navogation_with_pages.ui.object_classes.Zone;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FriendsListActivity extends AppCompatActivity {
     private ListView friendsListView;
@@ -49,25 +53,31 @@ public class FriendsListActivity extends AppCompatActivity {
 
     }
     private void setup(User user1){
-        ArrayList<User> friends = user1.getFriends();
-        if(friends == null || friends.size() == 0 ) {
-            text.setText(user1.getUsername() + " has no friends.");
-        }
-
-        else {
-            text.setText("Friends of " + user1.getUsername());
-        }
-
-
-        FriendsAdapter adapter = new FriendsAdapter(this,friends);
-        friendsListView.setAdapter(adapter);
-        friendsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        user1.getFriends(new OnGetUsersListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent k = new Intent(FriendsListActivity.this,OthersProfileActivity.class);
-                k.putExtra("ID", friends.get(i).getID());
-                startActivity(k);
+            public void onSuccess(ArrayList<User> users) {
+                if(users == null || users.size() == 0){
+                    text.setText(user1.getUsername() + " has no friends.");
+                }
+                else {
+                    text.setText("Friends of " + user1.getUsername());
+                }
+
+                FriendsAdapter adapter = new FriendsAdapter(FriendsListActivity.this,users);
+                friendsListView.setAdapter(adapter);
+                friendsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        Intent k = new Intent(FriendsListActivity.this,OthersProfileActivity.class);
+                        k.putExtra("ID", users.get(i).getID());
+                        startActivity(k);
+                    }
+                });
             }
         });
+
+
+
+
     }
 }
