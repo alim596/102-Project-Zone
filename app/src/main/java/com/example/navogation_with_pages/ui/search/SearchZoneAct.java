@@ -84,12 +84,11 @@ public class SearchZoneAct extends AppCompatActivity implements SearchView.OnQue
         {
             if(zone.getName().toLowerCase().contains(newText.toLowerCase()))
                 filteredList.add(zone);
-
         }
         if(filteredList.isEmpty()){
             Toast.makeText(this, "No data found", Toast.LENGTH_LONG).show();
         }
         else
-            adapter.setFilteredList(filteredList);
+            adapter.setZones(filteredList);
     }
 }
