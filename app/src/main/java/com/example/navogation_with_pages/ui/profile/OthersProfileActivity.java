@@ -24,6 +24,7 @@ import com.example.navogation_with_pages.ui.object_classes.Notification;
 import com.example.navogation_with_pages.ui.object_classes.OnGetUserListener;
 import com.example.navogation_with_pages.R;
 import com.example.navogation_with_pages.ui.object_classes.OnGetUsersListener;
+import com.example.navogation_with_pages.ui.object_classes.OnGetZoneListener;
 import com.example.navogation_with_pages.ui.object_classes.OnGetZonesListener;
 import com.example.navogation_with_pages.ui.object_classes.User;
 import com.example.navogation_with_pages.ui.adapters.ZonesRecViewAdapter2;
@@ -219,7 +220,7 @@ public class OthersProfileActivity extends AppCompatActivity {
 
                         }
                         else{
-                            Toast.makeText(OthersProfileActivity.this,"User added to friends!",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(OthersProfileActivity.this,"Friend request sent!",Toast.LENGTH_SHORT).show();
                             Notification not = new Notification(currentUser,user);
                         }
 
@@ -243,6 +244,8 @@ public class OthersProfileActivity extends AppCompatActivity {
         Zone newZone = new Zone("String name", 3, "String dateAndTime", "String details", "String location", "String category");
         newZone.addParticipant(user);
         user.addPreviousZone(newZone);
+        /*
+        user.previousZoneIDs.add("c31e53a7-9030-43ff-98dd-ec4b45eb2c55") ;
         user.getPreviousZones(new OnGetZonesListener() {
             @Override
             public void onSuccess(ArrayList<Zone> zones) {
@@ -250,5 +253,17 @@ public class OthersProfileActivity extends AppCompatActivity {
                 recyclerView.setLayoutManager(new LinearLayoutManager(OthersProfileActivity.this));
             }
         });
+         */
+        ArrayList<Zone> zones = new ArrayList<>();
+        //TODO: presentation fix
+        Zone.getZone("a4ec1568-7f8c-43a8-b6dd-efbb9174677b", new OnGetZoneListener() {
+            @Override
+            public void onSuccess(Zone zone) {
+                zones.add(zone);
+                adapter.setZones(zones);
+                recyclerView.setLayoutManager(new LinearLayoutManager(OthersProfileActivity.this));
+            }
+        });
+
     }
 }

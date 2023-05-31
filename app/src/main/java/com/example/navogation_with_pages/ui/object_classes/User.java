@@ -53,7 +53,7 @@
         //An arrayList of the previous zones of the user
         private ArrayList<Zone> previousZones;
 
-        private ArrayList<String> previousZoneIDs;
+        public ArrayList<String> previousZoneIDs;
 
 
         public User(String username, String password, String email, String ID){
@@ -390,10 +390,11 @@
                     Zone.getZone(ID, new OnGetZoneListener() {
                         @Override
                         public void onSuccess(Zone zone) {
-                            zoness.add(zone);
-                            if(zoness.size() == previousZoneIDs.size()){
-                                listener.onSuccess(zoness);
+                            if(zone != null){
+                                zoness.add(zone);
                             }
+                                listener.onSuccess(zoness);
+
                         }
                     });
                 }

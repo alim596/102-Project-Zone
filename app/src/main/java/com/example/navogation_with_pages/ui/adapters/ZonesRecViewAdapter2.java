@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.example.navogation_with_pages.R;
+import com.example.navogation_with_pages.ui.object_classes.OnGetUserListener;
 import com.example.navogation_with_pages.ui.object_classes.User;
 import com.example.navogation_with_pages.ui.profile.OthersProfileActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,6 +28,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import com.example.navogation_with_pages.ui.object_classes.Zone;
@@ -69,23 +71,32 @@ public class ZonesRecViewAdapter2 extends RecyclerView.Adapter<ZonesRecViewAdapt
 
         //Adding participants into the zones
         holder.participantsContainer.removeAllViews();
-        if(currentZone.getParticipants() != null){
-            for (User user : currentZone.getParticipants()) {
-                Button userButton = new Button(holder.itemView.getContext());
-                userButton.setText(user.getUsername());
-                userButton.setBackgroundColor(Color.TRANSPARENT); // remove button background to make it just text
-                userButton.setOnClickListener(new View.OnClickListener() {
+        //TODO: presentation fix
+        if(false && currentZone.getParticipants() != null){
+            for (Object userr : currentZone.getParticipants()) {
+                User.getUser((String) ((HashMap<String, Object>) (userr)).get("ID"), new OnGetUserListener() {
                     @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(holder.itemView.getContext(), OthersProfileActivity.class);
-                        intent.putExtra("ID", user.getID());
-                        if(!user.getID().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
-                            holder.itemView.getContext().startActivity(intent);
-                        }
+                    public void onSuccess(User user) {
+                        Button userButton = new Button(holder.itemView.getContext());
+                        userButton.setText(user.getUsername());
+                        userButton.setBackgroundColor(Color.TRANSPARENT); // remove button background to make it just text
+                        userButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(holder.itemView.getContext(), OthersProfileActivity.class);
+                                intent.putExtra("ID", user.getID());
+                                if(!user.getID().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                    holder.itemView.getContext().startActivity(intent);
+                                }
 
+                            }
+
+                        });
+                        holder.participantsContainer.addView(userButton);
                     }
                 });
-                holder.participantsContainer.addView(userButton);
+
+
             }
         }
 
