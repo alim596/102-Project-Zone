@@ -37,7 +37,6 @@ public class Notification
 
     public Notification(User user, User interactedUser)
     {
-
         this.zoneRequest = false;
         Notification.this.interacorUser = user;
         Notification.this.strImageView = user.getProfilePicture();

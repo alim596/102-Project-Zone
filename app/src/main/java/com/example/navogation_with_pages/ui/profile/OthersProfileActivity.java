@@ -208,6 +208,7 @@ public class OthersProfileActivity extends AppCompatActivity {
                                         }
                                         else{
                                             currentUser.removeFriend(user);
+                                            user.removeFriend(currentUser);
                                             Toast.makeText(OthersProfileActivity.this,"User deleted from friends.",Toast.LENGTH_SHORT).show();
                                         }
 
