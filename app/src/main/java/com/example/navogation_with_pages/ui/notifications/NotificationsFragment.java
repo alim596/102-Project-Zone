@@ -29,9 +29,11 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A fragment to display user notifications.
+ */
+public class NotificationsFragment extends Fragment {
 
-public class NotificationsFragment extends Fragment
-{
     private final FirebaseFirestore DB =  FirebaseFirestore.getInstance();
     ArrayList<String> userNames;
     NotRecyAdap adapter;
@@ -39,6 +41,14 @@ public class NotificationsFragment extends Fragment
     private FragmentNotificationsBinding binding;
     boolean add = false;
 
+    /**
+     * Called to do initial creation of the fragment.
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment,
+     * @param container If non-null, this is the parent view that the fragment's UI should be attached to.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     * @return Return the View for the fragment's UI, or null.
+     */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState)
     {
@@ -68,6 +78,9 @@ public class NotificationsFragment extends Fragment
         return root;
     }
 
+    /**
+     * Load the notifications from the database and update the ViewModel.
+     */
     public void loadNotifications()
     {
         DB.collection("notifications").get().addOnSuccessListener(queryDocumentSnapshots ->
@@ -96,6 +109,11 @@ public class NotificationsFragment extends Fragment
 
         }).addOnFailureListener(e -> { Log.e("NotificationsFragment", "Error loading notifications", e); });
     }
+
+    /**
+     * Called when the view previously created by {@link #onCreateView} has been detached from the fragment.
+     * The next time the fragment needs to be displayed, a new view will be created.
+     */
     @Override
     public void onDestroyView()
     {

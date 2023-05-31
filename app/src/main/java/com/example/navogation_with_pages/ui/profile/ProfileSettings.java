@@ -14,7 +14,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-
+/**
+ * An activity for managing user profile settings and applying changes.
+ */
 public class ProfileSettings extends AppCompatActivity {
 
     private FirebaseFirestore fStore;
@@ -28,6 +30,11 @@ public class ProfileSettings extends AppCompatActivity {
 
     Intent i;
 
+    /**
+     * Initializes the activity and sets up the necessary components.
+     *
+     * @param savedInstanceState The previously saved state of the activity.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         fStore = FirebaseFirestore.getInstance();
@@ -44,38 +51,43 @@ public class ProfileSettings extends AppCompatActivity {
         String username = l.getStringExtra("username");
         String biography = l.getStringExtra("biography");
         ID = l.getStringExtra("ID");
-        ((EditText)(findViewById(R.id.editUsername))).setText(username);
-        ((EditText)(findViewById(R.id.editBiography))).setText(biography);
+        newUsername.setText(username);
+        newBiography.setText(biography);
     }
-    //todo: make this edit firebase.
+
+    /**
+     * Applies the changes made by the user to their profile.
+     *
+     * @param v The button view that was clicked to apply the changes.
+     */
     public void applyChanges(View v) {
-        if(String.valueOf(newUsername.getText()).length() > 40 || String.valueOf(newBiography.getText()).length() > 130){
-            if(String.valueOf(newUsername.getText()).length() > 40){
-                (Toast.makeText(this,"Username over 40 spaces!",Toast.LENGTH_SHORT)).show();
+        if (newUsername.getText().length() > 40 || newBiography.getText().length() > 130) {
+            if (newUsername.getText().length() > 40) {
+                Toast.makeText(this, "Username is too long (maximum 40 characters).", Toast.LENGTH_SHORT).show();
+            } else if (newBiography.getText().length() > 130) {
+                Toast.makeText(this, "Biography is too long (maximum 130 characters).", Toast.LENGTH_SHORT).show();
             }
-            else if(String.valueOf(newBiography.getText()).length() > 130){
-                (Toast.makeText(this,"Biography over 130 spaces!",Toast.LENGTH_SHORT)).show();
-            }
-        }
-        else{
-            String newUsernameText = String.valueOf(newUsername.getText());
-            String newBiographyText = String.valueOf(newBiography.getText());
-            //todo:
+        } else {
+            String newUsernameText = newUsername.getText().toString();
+            String newBiographyText = newBiography.getText().toString();
             i.putExtra("username", newUsernameText);
             i.putExtra("biography", newBiographyText);
-            i.putExtra("ID",ID);
+            i.putExtra("ID", ID);
             setResult(RESULT_OK, i);
             finish();
         }
-
     }
 
-    public void logoutListener(View v){
-        if(this.confirmation == false){
-            (Toast.makeText(this,"Please click once more to log out.",Toast.LENGTH_SHORT)).show();
+    /**
+     * Handles the logout button click and signs the user out.
+     *
+     * @param v The button view that was clicked to log out.
+     */
+    public void logoutListener(View v) {
+        if (!confirmation) {
+            Toast.makeText(this, "Please click once more to log out.", Toast.LENGTH_SHORT).show();
             confirmation = true;
-        }
-        else{
+        } else {
             FirebaseAuth.getInstance().signOut();
             Intent i = new Intent(this, SignInPageActivity.class);
             startActivity(i);

@@ -52,6 +52,10 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * Fragment class for the self profile screen.
+ * Displays the user's profile information and allows editing and image uploading.
+ */
 public class SelfProfileFragment extends Fragment {
     private FragmentProfileBinding binding;
     private RecyclerView recyclerView;
@@ -64,6 +68,11 @@ public class SelfProfileFragment extends Fragment {
     private StorageReference firebaseStorage;
     private TextView name;
 
+    /**
+     * Sets up the self profile fragment with the user's information and handles click events.
+     *
+     * @param user The User object representing the current user.
+     */
     private void setPage(User user){
         biography.setText(user.getBiography());
         name.setText(user.getUsername());
@@ -132,7 +141,10 @@ public class SelfProfileFragment extends Fragment {
         });
 
     }
-    //Edit this method so that it does stuff with the gallery intent
+
+    /**
+     * Activity result launcher for handling the gallery intent result.
+     */
     ActivityResultLauncher<Intent> galleryResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -166,9 +178,21 @@ public class SelfProfileFragment extends Fragment {
                 }
             });
 
+    /**
+     * Uploads the image to Firebase storage.
+     */
     private void uploadImagetoFireBase() {
+        // Code for image upload to Firebase storage
     }
 
+    /**
+     * Creates and inflates the view for the self profile fragment.
+     *
+     * @param inflater           The LayoutInflater object that can be used to inflate any views in the fragment.
+     * @param container          The parent view that the fragment's UI should be attached to.
+     * @param savedInstanceState The previously saved state of the fragment.
+     * @return The view for the self profile fragment.
+     */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -210,6 +234,9 @@ public class SelfProfileFragment extends Fragment {
         binding = null;
     }
 
+    /**
+     * Activity result launcher for handling the result of the ProfileSettings activity.
+     */
     ActivityResultLauncher<Intent> activityResultLaunch = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -243,6 +270,4 @@ public class SelfProfileFragment extends Fragment {
                     }
                 }
             });
-
-
 }

@@ -27,20 +27,27 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
 
+/**
+ * The main activity of the application.
+ * This activity is responsible for handling user authentication, retrieving user information from the database,
+ * and setting up the navigation components.
+ */
 public class MainActivity extends AppCompatActivity {
 
 
     private FirebaseAuth fAuth;
-
     private FirebaseFirestore fStore;
-
     private CardView cardView;
     private RelativeLayout hiddenLayout;
-
     public static User user;
     private ActivityMainBinding binding;
 
-
+    /**
+     * Called when the activity is created. Initializes the layout, sets up the navigation components,
+     * retrieves user information from the database, and handles user authentication.
+     *
+     * @param savedInstanceState The saved instance state bundle.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
 
-        //Below code retrieves user information from database.
+        // Retrieve user information from the database
         String userID = fAuth.getCurrentUser().getUid();
         DocumentReference documentReference = fStore.collection("users").document(userID);
         if(documentReference == null){
@@ -70,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Set up the navigation components
+
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -82,6 +91,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    /**
+     * Called when the back button is pressed. Overrides the default behavior to prevent going back to the previous activity.
+     */
     @Override
     public void onBackPressed() {
         // Do Here what ever you want do on back press;

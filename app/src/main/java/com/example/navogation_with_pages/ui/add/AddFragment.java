@@ -42,6 +42,18 @@ import com.squareup.picasso.Picasso;
 import java.util.Calendar;
 import java.util.UUID;
 
+/**
+ * <h1>AddFragment Class</h1>
+ * The AddFragment class allows a user to add a Zone to the Firestore Database.
+ * It provides form fields for the user to input data related to a Zone, and
+ * uploads this data to the Firestore database.
+ * <p>
+ * <b>Note:</b> Providing clear and relevant data helps ensure the proper creation of a Zone.
+ *
+ * @author  Abdulaleem Altarsha
+ * @version 1.0
+ * @since   2023-05-31
+ */
 public class AddFragment extends Fragment {
 
     private FragmentAddBinding binding;
@@ -61,6 +73,16 @@ public class AddFragment extends Fragment {
 
     ArrayAdapter<String> arrayAdapter;
 
+    /**
+     * onCreateView initializes the UI elements of the fragment and sets necessary onClickListeners.
+     * This method also checks if required fields are filled before posting a zone to the database.
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment.
+     * @param container This can be null. If non-null, this is the parent view that the fragment's
+     *                  UI should be attached to. The fragment should not add the view itself.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     *                            from a previous saved state as given here.
+     * @return View Return the View for the fragment's UI, or null.
+     */
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // ...
         binding = FragmentAddBinding.inflate(inflater, container, false);
@@ -175,11 +197,17 @@ public class AddFragment extends Fragment {
         return root;
     }
 
+    /**
+     * getImageView is a getter method that returns the ImageView for the zone image.
+     * @return ImageView Returns the ImageView for the zone image.
+     */
     public ImageView getImageView(){
         return image;
     }
 
-    //Setting Category list field elements
+    /**
+     * onResume refreshes the category list when the fragment is resumed.
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -194,7 +222,12 @@ public class AddFragment extends Fragment {
         });
     }
 
-    //Uploading the Uri image chosen by the user to the database
+    /**
+     * uploadImage uploads the image chosen by the user to the Firebase storage
+     * and updates the Zone object with the download URL for the image.
+     * @param image The Uri of the image chosen by the user.
+     * @param zone The Zone object to be updated.
+     */
     public void uploadImage(Uri image, Zone zone) {
         // Create a reference to the location where you want to store the image
         final StorageReference zoneRef = storageRef.child("zones/" + zone.getZoneID() + "/zone.jpg");
@@ -218,7 +251,17 @@ public class AddFragment extends Fragment {
                 });
     }
 
-    // Method to handle the success of image upload
+    /**
+     * handleImageUploadSuccess is called when the image upload is successful. It updates the Zone
+     * object with the download URL and displays a success message to the user.
+     * @param downloadUri The download URL for the uploaded image.
+     * @param zone The Zone object to be updated.
+     *//**
+     * handleImageUploadSuccess is called when the image upload is successful. It updates the Zone
+     * object with the download URL and displays a success message to the user.
+     * @param downloadUri The download URL for the uploaded image.
+     * @param zone The Zone object to be updated.
+     */
     private void handleImageUploadSuccess(Uri downloadUri, Zone zone) {
         // Set the download URL to the Zone object
         zone.setImageUri(downloadUri);
@@ -228,7 +271,13 @@ public class AddFragment extends Fragment {
     }
 
 
-    //Setting the imageView to the image chosen by the user before posting the zone
+    /**
+     * onActivityResult is called when an image is chosen by the user. It updates the ImageView with
+     * the chosen image.
+     * @param requestCode The request code you passed to startActivityForResult().
+     * @param resultCode The result code specified by the second activity.
+     * @param data An Intent that carries the result data.
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -241,6 +290,9 @@ public class AddFragment extends Fragment {
         }
     }
 
+    /**
+     * onDestroyView is called when the view hierarchy associated with the fragment is being removed.
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();

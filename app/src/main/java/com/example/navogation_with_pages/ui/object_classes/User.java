@@ -223,69 +223,139 @@
             });
         }
 
+        /**
+         * Returns a string representation of the user object.
+         *
+         * @return A string containing the username and biography of the user.
+         */
         @Override
-        public String toString(){
+        public String toString() {
             return this.username + "\n" + this.biography;
         }
 
-
-       public void setID(String ID){
+        /**
+         * Sets the ID of the user.
+         *
+         * @param ID The new ID of the user.
+         */
+        public void setID(String ID) {
             this.ID = ID;
-       }
+        }
 
-
-        // Getters, Setters and Add/Remove methods
-
+        /**
+         * Gets the username of the user.
+         *
+         * @return The username of the user.
+         */
         public String getUsername() {
             return username;
         }
 
+        /**
+         * Sets the rating count of the user.
+         *
+         * @param ratingCount The new rating count of the user.
+         */
         public void setRatingCount(double ratingCount) {
             this.ratingCount = ratingCount;
-
         }
 
+        /**
+         * Gets the rating count of the user.
+         *
+         * @return The rating count of the user.
+         */
         public double getRatingCount() {
             return ratingCount;
         }
 
+        /**
+         * Sets the username of the user.
+         *
+         * @param username The new username of the user.
+         */
         public void setUsername(String username) {
             this.username = username;
         }
 
-
-        public String getID(){
+        /**
+         * Gets the ID of the user.
+         *
+         * @return The ID of the user.
+         */
+        public String getID() {
             return this.ID;
         }
 
+        /**
+         * Gets the password of the user.
+         *
+         * @return The password of the user.
+         */
         public String getPassword() {
             return password;
         }
 
+        /**
+         * Sets the password of the user.
+         *
+         * @param password The new password of the user.
+         */
         public void setPassword(String password) {
             this.password = password;
         }
 
-        public String getEmail(){
+        /**
+         * Gets the email of the user.
+         *
+         * @return The email of the user.
+         */
+        public String getEmail() {
             return this.email;
         }
 
-        public void setFriends(ArrayList<User> friends){
+        /**
+         * Sets the list of friends of the user.
+         *
+         * @param friends The new list of friends of the user.
+         */
+        public void setFriends(ArrayList<User> friends) {
             this.friends = friends;
         }
-        public void setEmail(String newEmail){
+
+        /**
+         * Sets the email of the user.
+         *
+         * @param newEmail The new email of the user.
+         */
+        public void setEmail(String newEmail) {
             this.email = newEmail;
         }
 
+        /**
+         * Gets the profile picture of the user.
+         *
+         * @return The profile picture of the user.
+         */
         public String getProfilePicture() {
             return profilePicture;
         }
 
+        /**
+         * Sets the profile picture of the user.
+         *
+         * @param profilePicture The new profile picture of the user.
+         */
         public void setProfilePicture(String profilePicture) {
             this.profilePicture = profilePicture;
         }
 
 
+        /**
+         * Retrieves the list of friends for the user.
+         *
+         * @param listener The listener to handle the retrieved list of friends.
+         */
         public void getFriends(OnGetUsersListener listener) {
             FirebaseFirestore fStore = FirebaseFirestore.getInstance();
 
@@ -333,6 +403,11 @@
 
         }
 
+        /**
+         * Adds a user to the list of friends.
+         *
+         * @param user The user to add as a friend.
+         */
         public void addFriend(User user) {
             if(this.friendIDs == null){
                 ArrayList<String> strings = new ArrayList<>(1);
@@ -402,6 +477,11 @@
 
         }
 
+        /**
+         * Adds a previous zone to the user's list of previous zones.
+         *
+         * @param previousZone The previous zone to add.
+         */
         public void addPreviousZone(Zone previousZone) {
             if(previousZoneIDs == null){
                 previousZoneIDs = new ArrayList<>();
@@ -409,47 +489,22 @@
             this.previousZoneIDs.add(previousZone.getZoneID());
         }
 
+        /**
+         * Sets the list of previous zones of the user.
+         *
+         * @param prevZones The new list of previous zones of the user.
+         */
         public void setPreviousZones(ArrayList<Zone> prevZones){
             this.previousZones = prevZones;
         }
 
-        public void setDatabaseID(String ID) {
-            this.setComponent("ID", ID);
-        }
-
-        public void setDatabaseUsername(String username) {
-            this.setComponent("username", username);
-        }
-
-        public void setDatabasePassword(String password) {
-            this.setComponent("password", password);
-        }
-
-        public void setDatabaseEmail(String email) {
-            this.setComponent("email", email);
-        }
-
-        public void setDatabaseFriends(ArrayList<User> friends) {
-            this.setComponent("friends", friends);
-        }
-
+        /**
+         * Gets the list of friend IDs of the user.
+         *
+         * @return The list of friend IDs of the user.
+         */
         public ArrayList<String> getFriendIDs() {
             return friendIDs;
         }
 
-        public void setDatabaseBiography(String biography) {
-            this.setComponent("biography", biography);
-        }
-
-        public void setDatabaseAverageRating(double averageRating) {
-            this.setComponent("averageRating", averageRating);
-        }
-
-        public void setDatabaseRatingCount(double ratingCount) {
-            this.setComponent("ratingCount", ratingCount);
-        }
-
-        public void setDatabasePreviousZones(ArrayList<Zone> previousZones) {
-            this.setComponent("previousZones", previousZones);
-        }
     }

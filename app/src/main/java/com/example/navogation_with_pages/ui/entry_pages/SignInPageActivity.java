@@ -21,6 +21,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * An activity for signing in a user in the application.
+ */
 public class SignInPageActivity extends AppCompatActivity {
     private boolean isPassword3Visible = false;
 
@@ -29,6 +32,11 @@ public class SignInPageActivity extends AppCompatActivity {
     private EditText passwordField;
 
     private FirebaseAuth mAuth;
+
+    /**
+     * Called when the activity is starting.
+     * This is where most initialization should go.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +48,12 @@ public class SignInPageActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         ((EditText)findViewById(R.id.passwordTextField3)).setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
     }
+
+    /**
+     * Redirects the user to the registration page.
+     *
+     * @param view The view triggering this method.
+     */
     public void registerRedirect(View view){
 
         Intent myIntent = new Intent(this, RegisterpageActivity.class);
@@ -47,6 +61,11 @@ public class SignInPageActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Logic for authenticating a user.
+     *
+     * @param view The view triggering this method.
+     */
     public void login(View view){
         String email = emailField.getText().toString();
         String password = passwordField.getText().toString();
@@ -91,10 +110,13 @@ public class SignInPageActivity extends AppCompatActivity {
                         }
                     });
         }
-
-
-
     }
+
+    /**
+     * Toggles the visibility of the password in the password input field.
+     *
+     * @param view The view triggering this method.
+     */
     public void hideInfo2(View view){
         EditText text;
         text = (EditText) findViewById(R.id.passwordTextField3);

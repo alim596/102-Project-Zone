@@ -15,14 +15,32 @@ import com.example.navogation_with_pages.ui.object_classes.Zone;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NotificationsViewModel extends ViewModel
-{
+/**
+ * ViewModel for the NotificationsFragment.
+ * This ViewModel holds the notifications data that will survive configuration changes.
+ */
+public class NotificationsViewModel extends ViewModel {
+
     MutableLiveData<ArrayList<Notification>> notifications;
 
-    public NotificationsViewModel()
-    {
+    /**
+     * Default constructor. Initializes the MutableLiveData object that holds the notifications.
+     */
+    public NotificationsViewModel() {
         notifications = new MutableLiveData<>();
     }
+
+    /**
+     * Getter method for the notifications LiveData.
+     *
+     * @return LiveData that holds the notifications.
+     */
     public LiveData<ArrayList<Notification>> getNotifications() { return notifications; };
+
+    /**
+     * Setter method for the notifications.
+     *
+     * @param notifications The new notifications to set.
+     */
     public void setNotifications(ArrayList<Notification> notifications) { this.notifications.setValue(notifications);}
 }

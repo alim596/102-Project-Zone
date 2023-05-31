@@ -23,19 +23,75 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * Zone class represents a Zone in the application.
+ *
+ * A Zone is a defined area or region that is used in this context to identify a certain location
+ * for an event or activity. It contains details such as name, quota, date and time,
+ * details of the event, location, image URI, list of participants, category, and a unique zone ID.
+ */
 public class Zone {
+
+    /**
+     * Name of the Zone.
+     */
     private String name;
+
+    /**
+     * Quota of the Zone, represents the maximum number of participants allowed.
+     */
     private int quota;
+
+    /**
+     * Date and time of the event in the Zone.
+     */
     private String dateAndTime;
+
+    /**
+     * Detailed information about the Zone.
+     */
     private String details;
+
+    /**
+     * The geographical location of the Zone.
+     */
     private String location;
+
+    /**
+     * URI of the image representing the Zone.
+     */
     private String imageUriStr;
+
+    /**
+     * List of users participating in the Zone.
+     */
     private ArrayList<User> participants;
+
+    /**
+     * Category of the Zone.
+     */
     private String category;
+
+    /**
+     * Unique identifier of the Zone.
+     */
     private String zoneID;
 
+    /**
+     * List of the names of participants.
+     */
     private ArrayList<String> participantsNames;
 
+    /**
+     * Constructor for Zone with parameters.
+     *
+     * @param name Name of the Zone.
+     * @param quota Quota of the Zone.
+     * @param dateAndTime Date and time of the event in the Zone.
+     * @param details Detailed information about the Zone.
+     * @param location The geographical location of the Zone.
+     * @param category Category of the Zone.
+     */
     public Zone(String name, int quota, String dateAndTime, String details, String location, String category) {
         this.name = name;
         this.quota = quota;
@@ -48,6 +104,17 @@ public class Zone {
         this.zoneID = UUID.randomUUID().toString();
     }
 
+    /**
+     * Default constructor for the Zone class.
+     */
+    public Zone(){}
+
+    /**
+     * Static method to get a Zone by its ID.
+     *
+     * @param ID The ID of the Zone.
+     * @param listener Callback listener for when the Zone is retrieved.
+     */
     public static void getZone(String ID, final OnGetZoneListener listener){
         FirebaseFirestore fStore = FirebaseFirestore.getInstance();
 
@@ -88,32 +155,67 @@ public class Zone {
             }
         });
     }
-    public Zone(){}
 
-
-
+    /**
+     * Gets the name of the Zone.
+     * @return String representing the name of the Zone.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets the name of the Zone.
+     * @param name The new name of the Zone.
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Gets the quota of the Zone.
+     * @return int representing the quota of the Zone.
+     */
     public int getQuota() {
         return quota;
     }
 
+    /**
+     * Retrieves the date and time of the event in the Zone.
+     * @return String representing the date and time of the event in the Zone.
+     */
     public String getDateAndTime() {
         return dateAndTime;
     }
 
+    /**
+     * Retrieves the detailed information about the Zone.
+     * @return String representing the details about the Zone.
+     */
     public String getDetails() {
         return details;
     }
-    public String getCategory(){return category;}
-    public ArrayList<User> getParticipants(){ return participants; }
 
+    /**
+     * Retrieves the category of the Zone.
+     * @return String representing the category of the Zone.
+     */
+    public String getCategory(){
+        return category;
+    }
+
+    /**
+     * Retrieves the list of users participating in the Zone.
+     * @return ArrayList of User objects representing the participants of the Zone.
+     */
+    public ArrayList<User> getParticipants(){
+        return participants;
+    }
+
+    /**
+     * Retrieves the URI of the image representing the Zone.
+     * @return Uri object representing the URI of the Zone's image.
+     */
     public Uri getImageUri() {
         if(this.imageUriStr != null && !this.imageUriStr.isEmpty()) {
             return Uri.parse(this.imageUriStr);
@@ -122,29 +224,26 @@ public class Zone {
         }
     }
 
-
+    /**
+     * Retrieves the unique identifier of the Zone.
+     * @return String representing the unique identifier of the Zone.
+     */
     public String getZoneID(){
         return zoneID;
     }
 
+    /**
+     * Retrieves the geographical location of the Zone.
+     * @return String representing the geographical location of the Zone.
+     */
     public String getLocation() {
         return location;
     }
 
-    public void setQuota(int quota) { this.quota = quota; }
-
-    public void setDateAndTime(String dateAndTime) {
-        this.dateAndTime = dateAndTime;
-    }
-
-    public void setDetails(String details) {
-        this.details = details;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
+    /**
+     * Sets the URI of the image representing the Zone.
+     * @param imageUri Uri object representing the URI of the image to be set.
+     */
     public void setImageUri(Uri imageUri) {
         if(imageUri != null) {
             this.imageUriStr = imageUri.toString();
@@ -153,10 +252,13 @@ public class Zone {
         }
     }
 
-    public void setZoneID(String zoneID) {
-        this.zoneID = zoneID;
-    }
 
+    /**
+     * Updates the participants list of a specific zone by adding a new participant.
+     *
+     * @param zoneID The ID of the Zone.
+     * @param newParticipant The new participant to be added.
+     */
     public void updateParticipants(String zoneID, User newParticipant) {
         DocumentReference zoneRef = FirebaseFirestore.getInstance().collection("zones").document(zoneID);
 
@@ -175,6 +277,11 @@ public class Zone {
                 });
     }
 
+    /**
+     * Adds a new participant to the Zone.
+     *
+     * @param participant The participant to be added.
+     */
     public void addParticipant(User participant) {
         if(participants == null){
             participants = new ArrayList<>();

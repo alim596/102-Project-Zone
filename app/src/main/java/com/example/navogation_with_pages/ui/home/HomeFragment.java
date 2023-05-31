@@ -19,12 +19,42 @@ import com.example.navogation_with_pages.ui.adapters.ZonesRecViewAdapter;
 
 import java.util.ArrayList;
 
+/**
+ * HomeFragment class for displaying the home view in the application.
+ *
+ * This class extends Fragment and is responsible for creating the Home View and binding the data from the ViewModel
+ * to the UI elements. It uses a RecyclerView to display the zones data.
+ */
 public class HomeFragment extends Fragment {
 
+    /**
+     * Dialog for showing the loading progress.
+     */
     private ProgressDialog dialog;
+
+    /**
+     * ViewModel for holding and managing the UI data for Home View.
+     */
     private HomeViewModel homeViewModel;
+
+    /**
+     * RecyclerView adapter for displaying the list of zones.
+     */
     private ZonesRecViewAdapter adapter;
 
+    /**
+     * Method for creating the Home View.
+     *
+     * This method initializes the ViewModel, inflates the layout for the Home View, sets up the RecyclerView
+     * for displaying the list of zones, and observes changes in the LiveData object in the ViewModel
+     * to update the UI accordingly.
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment.
+     * @param container If non-null, this is the parent view that the fragment's UI should be attached to.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     *
+     * @return Return the View for the fragment's UI, or null.
+     */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         dialog = new ProgressDialog(this.getContext());

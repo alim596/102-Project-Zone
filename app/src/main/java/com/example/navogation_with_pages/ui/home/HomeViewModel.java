@@ -17,17 +17,49 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
+/**
+ * ViewModel class for Home View.
+ *
+ * This class holds the UI data for Home View and allows the communication of HomeFragment
+ * with the underlying data sources, following the design principle of separation of concerns
+ * and the architectural pattern Model-View-ViewModel (MVVM).
+ *
+ * It handles querying the Firestore database for the Zone data, listens for changes in the Zone data,
+ * and updates the LiveData object that holds the Zone list accordingly.
+ */
 
 public class HomeViewModel extends ViewModel {
 
-
+    /**
+     * Live data holding the list of zones.
+     */
     private MutableLiveData<ArrayList<Zone>> mZones;
+
+    /**
+     * Firestore instance to access Firestore database.
+     */
     private final FirebaseFirestore DB =  FirebaseFirestore.getInstance();
+
+    /**
+     * Firebase Storage reference to access Firebase Storage.
+     */
     private final StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+
+    /**
+     * Firestore listener registration for listening to changes in Firestore.
+     */
     private ListenerRegistration zoneListener;
 
+    /**
+     * ArrayList holding the list of zones.
+     */
     ArrayList<Zone> zonesArr;
 
+    /**
+     * Constructor of HomeViewModel.
+     *
+     * Initializes the live data and array list of zones, loads the zones from Firestore, and listens for zone changes.
+     */
     public HomeViewModel() {
 
         mZones = new MutableLiveData<>();
@@ -36,10 +68,18 @@ public class HomeViewModel extends ViewModel {
         listenForZoneChanges();
     }
 
+    /**
+     * Get method for the live data of zones.
+     *
+     * @return LiveData of ArrayList of Zones.
+     */
     public LiveData<ArrayList<Zone>> getZones() {
         return mZones;
     }
 
+    /**
+     * Method for loading zones from Firestore.
+     */
     private void loadZones() {
         DB.collection("zones").get().addOnSuccessListener(queryDocumentSnapshots -> {
             ArrayList<Zone> zones = new ArrayList<>();
@@ -65,11 +105,20 @@ public class HomeViewModel extends ViewModel {
         });
     }
 
+    /**
+     * Get method for the array list of zones.
+     *
+     * @return ArrayList of Zones.
+     */
     public ArrayList<Zone> getZonesArr() {
         return zonesArr;
     }
 
-    //Checks if a new zone is added to the database and reads it so that zones will be added in real time
+    /**
+     * Method for listening for changes in Firestore.
+     *
+     * This method listens for added, modified, and removed zones in Firestore and updates the live data of zones accordingly.
+     */
     private void listenForZoneChanges() {
         zoneListener = DB.collection("zones").addSnapshotListener((queryDocumentSnapshots, e) -> {
             if (e != null) {
@@ -114,7 +163,11 @@ public class HomeViewModel extends ViewModel {
 
 
 
-//removes the Firestore Snapshot Listener when the ViewModel is no longer in use to avoid potential memory leaks.
+    /**
+     * OnCleared method of HomeViewModel.
+     *
+     * This method removes the Firestore snapshot listener when the ViewModel is no longer in use to avoid potential memory leaks.
+     */
     @Override
     protected void onCleared() {
         if (zoneListener != null) {

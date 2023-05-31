@@ -8,6 +8,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ * This class represents a Notification in the application.
+ * It contains information about the user who interacted (interactor),
+ * the user who was interacted with, the zoneID if it was a zone request,
+ * and the notification details.
+ */
 public class Notification
 {
     User interacorUser;
@@ -19,6 +25,13 @@ public class Notification
     String strImageView;
     boolean zoneRequest;
 
+    /**
+     * Constructs a Notification object for a zone request.
+     *
+     * @param interacorUser   The user who is sending the request.
+     * @param interactedUser  The user who the request is sent to.
+     * @param zone            The zone for which the request is made.
+     */
     public Notification(User interacorUser, User interactedUser, Zone zone)
     {
         this.zoneRequest = true;
@@ -31,6 +44,10 @@ public class Notification
         uploadToFirebase();
 
     }
+
+    /**
+     * Uploads the Notification data to the Firebase Firestore database.
+     */
     private void uploadToFirebase() {
         if(this.zoneRequest){
             FirebaseFirestore.getInstance().collection("notifications").document(this.ID).set(this).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -51,6 +68,9 @@ public class Notification
 
     }
 
+    /**
+     * Deletes the Notification from the Firebase Firestore database.
+     */
     public void delete(){
         // Create a reference to the document you want to delete
         String type;
@@ -65,6 +85,12 @@ public class Notification
                 .delete();
     }
 
+    /**
+     * Constructs a Notification object for a friend request.
+     *
+     * @param user            The user who is sending the request.
+     * @param interactedUser  The user who the request is sent to.
+     */
     public Notification(User user, User interactedUser)
     {
         this.zoneRequest = false;
@@ -76,15 +102,52 @@ public class Notification
         uploadToFirebase();
     }
 
+    /**
+     * Default constructor for Notification.
+     */
     public Notification() {}
 
+    /**
+     * Gets the ID of the zone associated with this Notification.
+     *
+     * @return The ID of the zone.
+     */
     public String getZoneID(){
         return this.zoneID;
     }
+
+    /**
+     * Gets the info associated with this Notification.
+     *
+     * @return The info associated with this Notification.
+     */
     public String getInfo() { return this.info; }
+
+    /**
+     * Gets the User object of the interactor.
+     *
+     * @return The User object of the interactor.
+     */
     public User getInteracorUser() { return this.interacorUser; }
+
+    /**
+     * Gets the User object of the user who was interacted with.
+     *
+     * @return The User object of the user who was interacted with.
+     */
     public User getInteractedUser() { return  this.interactedUser; }
 
+    /**
+     * Gets the URL of the profile picture of the interactor.
+     *
+     * @return The URL of the profile picture of the interactor.
+     */
     public String getStrImageView() { return this.strImageView; }
+
+    /**
+     * Checks if this Notification is a zone request.
+     *
+     * @return true if it is a zone request, false if it's not.
+     */
     public boolean isZoneRequest() {return zoneRequest; }
 }

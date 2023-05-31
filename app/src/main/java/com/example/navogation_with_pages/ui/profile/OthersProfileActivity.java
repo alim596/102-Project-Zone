@@ -37,25 +37,30 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+/**
+ * The OthersProfileActivity displays the profile of another user.
+ * It retrieves the user's information from Firebase Firestore and displays their profile picture, username, biography, average rating, and previous zones.
+ * The user can rate the profile owner, add them as a friend, view their friends list, and view their previous zones.
+ */
 public class OthersProfileActivity extends AppCompatActivity {
     private User user;
     private TextView biography;
-
     private ProgressDialog dialog;
-
     private StorageReference firebaseStorage;
     private RecyclerView recyclerView;
-
     private boolean isConfirm = false;
     private ImageView profilePic;
-
     private TextView averageRatingText;
-
     private ImageButton rateButton;
-
     private ImageButton addFriendButton;
-
     private TextView name;
+
+    /**
+     * onCreate method called when the activity is being created.
+     * Initializes the activity layout, retrieves the user ID from the intent, and fetches the user's information from Firestore.
+     * If the user ID matches the current user's ID, it displays a toast message and finishes the activity.
+     * @param savedInstanceState The saved instance state bundle.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,26 +82,19 @@ public class OthersProfileActivity extends AppCompatActivity {
         this.rateButton = findViewById(R.id.rateButton);
         this.averageRatingText = findViewById(R.id.averageRatingText);
 
-
-
         User.getUser(userID, new OnGetUserListener() {
             @Override
             public void onSuccess(User userr) {
-                OthersProfileActivity.this.setup(userr);
+                setup(userr);
             }
         });
-
-
     }
 
-    //TODO: implement logic to check wheteher this user has already rated this user.
-    private void rateUser(User userRating, User usertoBeRated, double rating){
-        userRating.rateUser(usertoBeRated,rating);
-        String avRating = String.format("%.2f", usertoBeRated.getAverageRating());
-        averageRatingText.setText("Average Rating: " + avRating + "/5");
-    }
-
-    private void setup(User user){
+    /**
+     * Sets up the user profile by retrieving user information and populating the views.
+     * @param user The User object representing the profile owner.
+     */
+    private void setup(User user) {
         StorageReference fileRef = firebaseStorage.child("users/" + user.getID() + "/profile.jpg");
         name.setText(user.getUsername());
         biography.setText(user.getBiography());
@@ -111,22 +109,18 @@ public class OthersProfileActivity extends AppCompatActivity {
                 Picasso.get().load(uri).into(profilePic);
                 try {
                     Thread.sleep(1000);
-
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
             }
         });
+
         User.getCurrentUser(new OnGetUserListener() {
             @Override
             public void onSuccess(User currentUser) {
-
                 rateButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
-
-
                         Dialog dialog = new Dialog(OthersProfileActivity.this);
                         dialog.setContentView(R.layout.dialog_layout);
                         dialog.show();
@@ -140,35 +134,35 @@ public class OthersProfileActivity extends AppCompatActivity {
                         btn1.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                rateUser(currentUser,user,1);
+                                rateUser(currentUser, user, 1);
                                 dialog.dismiss();
                             }
                         });
                         btn2.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                rateUser(currentUser,user,2);
+                                rateUser(currentUser, user, 2);
                                 dialog.dismiss();
                             }
                         });
                         btn3.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                rateUser(currentUser,user,3);
+                                rateUser(currentUser, user, 3);
                                 dialog.dismiss();
                             }
                         });
                         btn4.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                rateUser(currentUser,user,4);
+                                rateUser(currentUser, user, 4);
                                 dialog.dismiss();
                             }
                         });
                         btn5.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                rateUser(currentUser,user,5);
+                                rateUser(currentUser, user, 5);
                                 dialog.dismiss();
                             }
                         });
@@ -182,6 +176,7 @@ public class OthersProfileActivity extends AppCompatActivity {
                 });
             }
         });
+
         addFriendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -201,29 +196,22 @@ public class OthersProfileActivity extends AppCompatActivity {
                                     if(!isFriend){
                                         Toast.makeText(OthersProfileActivity.this,"User added to friends!",Toast.LENGTH_SHORT).show();
                                         Notification not = new Notification(currentUser,user);
-                                    }
-                                    else{
+                                    } else {
                                         if(!isConfirm){
                                             isConfirm = true;
                                             Toast.makeText(OthersProfileActivity.this,"User already in friends list! Press again to delete them.",Toast.LENGTH_SHORT).show();
-                                        }
-                                        else{
+                                        } else {
                                             currentUser.removeFriend(user);
                                             user.removeFriend(currentUser);
                                             Toast.makeText(OthersProfileActivity.this,"User deleted from friends.",Toast.LENGTH_SHORT).show();
                                         }
-
                                     }
                                 }
                             });
-
-
-                        }
-                        else{
+                        } else {
                             Toast.makeText(OthersProfileActivity.this,"Friend request sent!",Toast.LENGTH_SHORT).show();
                             Notification not = new Notification(currentUser,user);
                         }
-
                     }
                 });
             }
@@ -237,7 +225,6 @@ public class OthersProfileActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
 
         ZonesRecViewAdapter2 adapter = new ZonesRecViewAdapter2();
         recyclerView.setAdapter(adapter);
@@ -264,6 +251,18 @@ public class OthersProfileActivity extends AppCompatActivity {
                 recyclerView.setLayoutManager(new LinearLayoutManager(OthersProfileActivity.this));
             }
         });
+    }
 
+    /**
+     * Rates the user by calling the rateUser method on the rating user.
+     * Updates the average rating text view with the new average rating.
+     * @param userRating The User object representing the rating user.
+     * @param userToBeRated The User object representing the user to be rated.
+     * @param rating The rating value.
+     */
+    private void rateUser(User userRating, User userToBeRated, double rating){
+        userRating.rateUser(userToBeRated, rating);
+        String avRating = String.format("%.2f", userToBeRated.getAverageRating());
+        averageRatingText.setText("Average Rating: " + avRating + "/5");
     }
 }
