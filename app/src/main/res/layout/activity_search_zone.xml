@@ -7,7 +7,6 @@
     android:background="#433E40"
     android:id="@+id/home"
     tools:context=".ui.home.HomeFragment"
-    android:background="#433E40"
     >
 
 <androidx.appcompat.widget.SearchView

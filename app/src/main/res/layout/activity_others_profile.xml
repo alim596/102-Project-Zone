@@ -8,6 +8,7 @@
     android:background="#433E40"
     tools:context=".ui.profile.SelfProfileFragment">
 
+
     <ImageView
         android:id="@+id/OtherProfilePictureDisplay"
         android:layout_width="120dp"
@@ -17,9 +18,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.123"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.088" />
-
+        app:layout_constraintTop_toBottomOf="@+id/OtherUsernameDisplay"
+        app:layout_constraintVertical_bias="0.019" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/OtherPreviousZonesRecView"
@@ -29,8 +29,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.826">
+        app:layout_constraintTop_toBottomOf="@+id/textView8"
+        app:layout_constraintVertical_bias="0.38">
 
 
     </androidx.recyclerview.widget.RecyclerView>
@@ -48,24 +48,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.931"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.27" />
+        app:layout_constraintTop_toBottomOf="@+id/OtherBiographyDisplay"
+        app:layout_constraintVertical_bias="0.019" />
 
     <TextView
         android:id="@+id/OtherBiographyDisplay"
         android:layout_width="204dp"
         android:layout_height="121dp"
-        android:textColor="#FFFFFF"
-        android:text="TextView"
-        android:padding="10sp"
         android:background="@drawable/round_outline"
         android:clipToOutline="true"
+        android:padding="10sp"
+        android:text="TextView"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.859"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.392"
+        app:layout_constraintStart_toEndOf="@+id/OtherProfilePictureDisplay"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.088" />
+        app:layout_constraintVertical_bias="0.086" />
 
     <TextView
         android:id="@+id/OtherUsernameDisplay"
@@ -110,22 +110,24 @@
     <TextView
         android:id="@+id/averageRatingText"
         android:layout_width="wrap_content"
-        android:textColor="#FFFFFF"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
         android:text="TextView"
+        android:textColor="#FFFFFF"
         android:textSize="17sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.105"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.259" />
+        app:layout_constraintTop_toBottomOf="@+id/OtherProfilePictureDisplay"
+        app:layout_constraintVertical_bias="0.001" />
 
     <TextView
         android:id="@+id/textView8"
         android:layout_width="112dp"
         android:layout_height="27dp"
+        android:layout_marginTop="5dp"
         android:text="Previous Zones:"
         android:textColor="#FFFFFF"
         android:textSize="15sp"
@@ -133,7 +135,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.07"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.301" />
+        app:layout_constraintTop_toBottomOf="@+id/averageRatingText"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
