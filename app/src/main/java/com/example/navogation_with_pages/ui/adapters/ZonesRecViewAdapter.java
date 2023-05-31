@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.example.navogation_with_pages.R;
+import com.example.navogation_with_pages.ui.object_classes.Notification;
+import com.example.navogation_with_pages.ui.object_classes.OnGetUserListener;
 import com.example.navogation_with_pages.ui.object_classes.User;
 import com.example.navogation_with_pages.ui.profile.OthersProfileActivity;
 import com.squareup.picasso.Picasso;
@@ -53,6 +55,7 @@ public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapte
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
+    public void setFilteredList(ArrayList<Zone> zones) { this.zones = zones; }
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -116,6 +119,12 @@ public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapte
             @Override
             public void onClick(View v) {
                 //TODO set the implementation for the request button
+                User.getCurrentUser(new OnGetUserListener() {
+                    @Override
+                    public void onSuccess(User user) {
+                        Notification ntf = new Notification(user,currentZone.getParticipants().get(0),currentZone);
+                    }
+                });
             }
         });
     }
@@ -149,6 +158,16 @@ public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapte
         notifyDataSetChanged();
         dialog.hide();
     }
+    public void setZones(ArrayList<Zone> zones) {
+        ArrayList<Zone> filteredZones = new ArrayList<>();
+        for (Zone zone : zones) {
+            if (!isEventExpired(zone.getDateAndTime())) {
+                filteredZones.add(zone);
+            }
+        }
+        this.zones = filteredZones;
+        notifyDataSetChanged();
+    }
 
     //This class gives objects that can hold CardView items to add to the home page
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -162,7 +181,7 @@ public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapte
         private CardView zoneCrdView;
         private RelativeLayout hidden;
         private LinearLayout participantsContainer;
-        private Button requestBtn;
+        public Button requestBtn;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             zoneCrdView = itemView.findViewById(R.id.zoneCrdView);
@@ -176,7 +195,6 @@ public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapte
             hidden = itemView.findViewById(R.id.hidden);
             participantsContainer = itemView.findViewById(R.id.participantsContainer);
             requestBtn = itemView.findViewById(R.id.requestBtn);
-
         }
     }
 }

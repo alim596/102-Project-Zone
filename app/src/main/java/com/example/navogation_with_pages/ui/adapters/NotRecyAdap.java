@@ -11,39 +11,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.navogation_with_pages.R;
 import com.example.navogation_with_pages.ui.object_classes.Notification;
+import com.example.navogation_with_pages.ui.object_classes.OnGetUserListener;
+import com.example.navogation_with_pages.ui.object_classes.OnGetZoneListener;
+import com.example.navogation_with_pages.ui.object_classes.User;
+import com.example.navogation_with_pages.ui.object_classes.Zone;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NotRecyAdap extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 {
-    public static class ViewHolder extends RecyclerView.ViewHolder
-    {
-        public TextView  person_name;
-        public TextView  small_info;
-        public ImageView person_img;
-        public CardView  card_view;
-        public Button    accept_button;
-        public Button    delete_button;
+    ArrayList<Notification> notifications;
 
-        public ViewHolder(@NonNull View itemView)
-        {
-            super(itemView);
-
-            card_view = (CardView)itemView.findViewById(R.id.card_view);
-            person_name = (TextView)itemView.findViewById(R.id.person_name);
-            small_info = (TextView)itemView.findViewById(R.id.small_info);
-            person_img = (ImageView)itemView.findViewById(R.id.person_photo);
-            accept_button = (Button)itemView.findViewById(R.id.accept_button);
-            delete_button = (Button)itemView.findViewById(R.id.delete_button);
-        }
-    }
-
-    List<Notification> notifications;
-
-    public NotRecyAdap(List<Notification> notifications)
+    public NotRecyAdap(ArrayList<Notification> notifications)
     {
         this.notifications = notifications;
     }
+
+    public void setNotifications(ArrayList<Notification> notifications) { this.notifications = notifications; }
 
     @NonNull
     @Override
@@ -59,14 +44,75 @@ public class NotRecyAdap extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position)
     {
-        ((ViewHolder) holder).person_name.setText(notifications.get(position).getName());
-        ((ViewHolder) holder).small_info.setText(notifications.get(position).getInfo());
-        //((ViewHolder) holder).person_img.setImageResource(notifications.get(position).getImageView());
+        Notification notification = notifications.get(position);
+        ((ViewHolder) holder).person_name.setText(notification.getInteracorUser().getUsername());
+        ((ViewHolder) holder).small_info.setText(notification.getInfo());
     }
 
     @Override
-    public int getItemCount()
+    public int getItemCount() {
+        if(notifications != null)
+            return notifications.size();
+        else
+            return 0;
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
-        return notifications.size();
+        public TextView  person_name;
+        public TextView  small_info;
+        public ImageView person_img;
+        public CardView  card_view;
+        public Button    accept_button;
+        public Button    delete_button;
+        public ViewHolder(@NonNull View itemView)
+        {
+            super(itemView);
+
+
+            card_view = itemView.findViewById(R.id.card_view);
+            person_name = itemView.findViewById(R.id.person_name);
+            small_info = itemView.findViewById(R.id.small_info);
+            person_img = itemView.findViewById(R.id.person_photo);
+            accept_button = itemView.findViewById(R.id.accept_button);
+            delete_button = itemView.findViewById(R.id.delete_button);
+
+            accept_button.setOnClickListener(this);
+            delete_button.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view)
+        {
+            if(view.getId() == R.id.accept_button)
+            {
+                User.getCurrentUser(new OnGetUserListener()
+                {
+                    @Override
+                    public void onSuccess(User user)
+                    {
+                        Notification notification = NotRecyAdap.this.notifications.get(getAbsoluteAdapterPosition());
+
+                        if(!NotRecyAdap.this.notifications.get(getAbsoluteAdapterPosition()).isZoneRequest())
+                        {
+                            user.addFriend(notification.getInteracorUser());
+                            Toast.makeText(view.getContext(), "Friends request is accepted", Toast.LENGTH_LONG).show();
+                        }
+                        else
+                        {
+                            Zone.getZone(notification.getZoneID(), new OnGetZoneListener() {
+                                @Override
+                                public void onSuccess(Zone zone) {
+                                    zone.addParticipant(notification.getInteracorUser());
+                                }
+                            });
+                            Toast.makeText(view.getContext(), "Zone request is accepted!", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+            }
+            if(view.getId() == R.id.delete_button)
+                card_view.setVisibility(View.INVISIBLE);
+        }
     }
 }

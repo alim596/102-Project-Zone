@@ -10,6 +10,7 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.navogation_with_pages.ui.adapters.ZonesRecViewAdapter;
 import com.example.navogation_with_pages.ui.object_classes.OnGetUserListener;
 import com.example.navogation_with_pages.R;
 import com.example.navogation_with_pages.ui.object_classes.User;
@@ -90,6 +92,9 @@ public class SelfProfileFragment extends Fragment {
         ratingText.setText("Average Rating: " + avRating + "/5");
         ZonesRecViewAdapter2 adapter = new ZonesRecViewAdapter2();
         recyclerView.setAdapter(adapter);
+        Zone newZone = new Zone("String name", 3, "String dateAndTime", "String details", "String location", "String category");
+        newZone.addParticipant(user);
+        user.addPreviousZone(newZone);
         adapter.setZones(user.getPreviousZones());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         Button settingsButton = (Button) SelfProfileFragment.this.getActivity().findViewById(R.id.button);
@@ -161,14 +166,15 @@ public class SelfProfileFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
         dialog=new ProgressDialog(this.getContext());
         dialog.setMessage("Loading Profile...");
         dialog.setCancelable(false);
         dialog.setInverseBackgroundForced(false);
         dialog.show();
-
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_profile, null);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+
         String ID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         firebaseStorage = FirebaseStorage.getInstance().getReference();

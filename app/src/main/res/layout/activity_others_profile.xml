@@ -5,6 +5,7 @@
     android:id="@+id/profile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#433E40"
     tools:context=".ui.profile.SelfProfileFragment">
 
     <ImageView
@@ -48,14 +49,15 @@
         app:layout_constraintHorizontal_bias="0.931"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.279" />
+        app:layout_constraintVertical_bias="0.27" />
 
     <TextView
         android:id="@+id/OtherBiographyDisplay"
         android:layout_width="204dp"
         android:layout_height="121dp"
+        android:textColor="#FFFFFF"
         android:text="TextView"
-        android:padding="5sp"
+        android:padding="10sp"
         android:background="@drawable/round_outline"
         android:clipToOutline="true"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -71,11 +73,12 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:gravity="center"
+        android:textColor="#FFFFFF"
         android:text="usernameDisplay"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.089"
+        app:layout_constraintHorizontal_bias="0.082"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.022" />
@@ -107,15 +110,30 @@
     <TextView
         android:id="@+id/averageRatingText"
         android:layout_width="wrap_content"
+        android:textColor="#FFFFFF"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:textSize="17sp"
         android:text="TextView"
+        android:textSize="17sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.101"
+        app:layout_constraintHorizontal_bias="0.105"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.283" />
+        app:layout_constraintVertical_bias="0.259" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="112dp"
+        android:layout_height="27dp"
+        android:text="Previous Zones:"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.07"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.301" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

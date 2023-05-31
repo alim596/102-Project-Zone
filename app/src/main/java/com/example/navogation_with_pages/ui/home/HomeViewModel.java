@@ -26,9 +26,12 @@ public class HomeViewModel extends ViewModel {
     private final StorageReference storageRef = FirebaseStorage.getInstance().getReference();
     private ListenerRegistration zoneListener;
 
+    ArrayList<Zone> zonesArr;
+
     public HomeViewModel() {
 
         mZones = new MutableLiveData<>();
+        zonesArr = new ArrayList<>();
         loadZones();
         listenForZoneChanges();
     }
@@ -56,11 +59,15 @@ public class HomeViewModel extends ViewModel {
                     mZones.setValue(zones);
                 });
             }
+            zonesArr = zones;
         }).addOnFailureListener(e -> {
             Log.e("HomeViewModel", "Error loading zones", e);
         });
     }
 
+    public ArrayList<Zone> getZonesArr() {
+        return zonesArr;
+    }
 
     //Checks if a new zone is added to the database and reads it so that zones will be added in real time
     private void listenForZoneChanges() {

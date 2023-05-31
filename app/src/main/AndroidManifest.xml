@@ -21,6 +21,10 @@
         <activity
             android:name=".ui.entry_pages.SignInPageActivity"
             android:exported="false" />
+        <activity android:name=".ui.search.SearchProfileActivity"
+            android:exported="false"/>
+        <activity android:name=".ui.search.SearchZoneAct"
+            android:exported="false"/>
         <activity
             android:name=".ui.entry_pages.RegisterpageActivity"
             android:exported="true"

@@ -1,8 +1,26 @@
 package com.example.navogation_with_pages.ui.object_classes;
 
 import android.net.Uri;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.UUID;
 
 public class Zone {
@@ -29,7 +47,41 @@ public class Zone {
         this.participantsNames = new ArrayList<>();
         this.zoneID = UUID.randomUUID().toString();
     }
+
+    public static void getZone(String ID, final OnGetZoneListener listener){
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+
+
+        String userID = ID;
+
+
+        DocumentReference documentReference = fStore.collection("zones").document(userID);
+
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                Map<String, Object> snapshotValue = task.getResult().getData();
+                Zone zone = new Zone();
+                if(snapshotValue == null){
+                    listener.onSuccess(null);
+                }
+                zone.location = (String) snapshotValue.get("location");
+                zone.dateAndTime = (String) snapshotValue.get("dateAndTime");
+                zone.details = (String) snapshotValue.get("details");
+                zone.category = (String) snapshotValue.get("category");
+                zone.imageUriStr = null;
+                zone.name = (String) snapshotValue.get("name");
+                zone.participants = (ArrayList<User>)snapshotValue.get("participants");
+                zone.quota = (int)snapshotValue.get("quota");
+                zone.zoneID = (String)(snapshotValue.get("zoneID"));
+                listener.onSuccess(zone);
+            }
+        });
+    }
     public Zone(){}
+
+
     public String getName() {
         return name;
     }
@@ -95,10 +147,28 @@ public class Zone {
         this.zoneID = zoneID;
     }
 
+    public void updateParticipants(String zoneID, User newParticipant) {
+        DocumentReference zoneRef = FirebaseFirestore.getInstance().collection("zones").document(zoneID);
+
+        zoneRef.update("participants", FieldValue.arrayUnion(newParticipant))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d("TAG", "Participant successfully added!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("TAG", "Error adding participant", e);
+                    }
+                });
+    }
+
     public void addParticipant(User participant) {
         participants.add(participant);
         participantsNames.add(participant.getUsername());
-
+        updateParticipants(this.getZoneID(),participant);
     }
 
 }

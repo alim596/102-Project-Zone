@@ -97,7 +97,6 @@ public class RegisterpageActivity extends AppCompatActivity {
             // Define the regex patterns for the email formats. Below code checks if the email is in one of these formats.
             String[] emailFormats = {
                     "^[a-zA-Z0-9._%+-]+@cs\\.bilkent\\.edu\\.tr$",
-                    "^[a-zA-Z0-9._%+-]+@gmail\\.com$",
                     "^[a-zA-Z0-9._%+-]+@ee\\.bilkent\\.edu\\.tr$",
                     "^[a-zA-Z0-9._%+-]+@fen\\.bilkent\\.edu\\.tr$",
                     "^[a-zA-Z0-9._%+-]+@unam\\.bilkent\\.edu\\.tr$",
@@ -146,7 +145,6 @@ public class RegisterpageActivity extends AppCompatActivity {
 
                                     Intent intent = new Intent(RegisterpageActivity.this, SignInPageActivity.class);
                                     String userID = fAuth.getUid();
-                                    (Toast.makeText(RegisterpageActivity.this,"Account successfully created!",Toast.LENGTH_SHORT)).show();
                                     Map<String, Object> user = new HashMap<>();
                                     user.put("username",usernameString);
                                     user.put("email", email);
@@ -165,7 +163,6 @@ public class RegisterpageActivity extends AppCompatActivity {
                                             Log.d("TAG","SUCCESS," + userID);
                                         }
                                     });
-                                    Toast.makeText(getApplicationContext(), "Registration successful!", Toast.LENGTH_LONG).show();
                                     startActivity(intent);
                                 }
                                 else {

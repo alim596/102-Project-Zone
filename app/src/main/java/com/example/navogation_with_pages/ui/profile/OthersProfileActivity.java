@@ -237,6 +237,9 @@ public class OthersProfileActivity extends AppCompatActivity {
 
         ZonesRecViewAdapter2 adapter = new ZonesRecViewAdapter2();
         recyclerView.setAdapter(adapter);
+        Zone newZone = new Zone("String name", 3, "String dateAndTime", "String details", "String location", "String category");
+        newZone.addParticipant(user);
+        user.addPreviousZone(newZone);
         adapter.setZones(user.getPreviousZones());
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }

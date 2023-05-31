@@ -5,7 +5,7 @@
     android:id="@+id/add"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#C6FFFFFF"
+    android:background="#433E40"
     android:paddingHorizontal="40dp"
     tools:context=".ui.add.AddFragment">
 
@@ -17,7 +17,7 @@
         android:fontFamily="sans-serif"
         android:text="Create Your Own Zone!"
         android:textAlignment="center"
-        android:textColor="#75000000"
+        android:textColor="#CCFFFFFF"
         android:textSize="35dp" />
 
     <ScrollView
@@ -128,6 +128,7 @@
                 android:id="@+id/imgTxt"
                 android:text="Choose An Image:"
                 android:textSize="18dp"
+                android:textColor="#CCFFFFFF"
                 android:paddingTop="20dp"
                 android:layout_below="@id/category"
                 />
