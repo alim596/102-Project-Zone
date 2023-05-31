@@ -53,10 +53,13 @@
         //An arrayList of the previous zones of the user
         private ArrayList<Zone> previousZones;
 
+        private ArrayList<String> previousZoneIDs;
+
 
         public User(String username, String password, String email, String ID){
             this.ID = ID;
             this.previousZones = new ArrayList<Zone>();
+            this.previousZoneIDs = new ArrayList<String>();
             this.username = username;
             this.password = password;
             this.email = email;
@@ -284,31 +287,6 @@
 
 
         public void getFriends(OnGetUsersListener listener) {
-            /*
-            Object[] friendss = this.friends.toArray();
-            ArrayList<User> users = new ArrayList<User>();
-            for(Object object : friendss){
-                Map<String, Object> snapshotValue = (HashMap<String,Object>)object;
-                User user2 = new User();
-                user2.setID((String)snapshotValue.get("id"));
-                user2.setPassword((String)snapshotValue.get("password"));
-                user2.setUsername((String) snapshotValue.get("username"));
-                user2.setBiography((String)snapshotValue.get("biography"));
-                user2.setPreviousZones((ArrayList<Zone>)snapshotValue.get("previousZones"));
-                user2.setAverageRating(((Double)snapshotValue.get("averageRating")));
-                if(!(snapshotValue.get("ratingCount").getClass() == Long.class)){
-                    user2.setRatingCount(((Double) snapshotValue.get("ratingCount")));
-                }
-                else{
-                    user2.setRatingCount(((Long) snapshotValue.get("ratingCount")).doubleValue());
-                }
-
-                user2.setEmail((String) snapshotValue.get("email"));
-                user2.setFriends((ArrayList<User>) snapshotValue.get("friends"));
-                users.add(user2);
-            }
-            return users;
-             */
             FirebaseFirestore fStore = FirebaseFirestore.getInstance();
 
             ArrayList<User> friendsList = new ArrayList<User>();
@@ -402,12 +380,32 @@
         }
 
 
-        public ArrayList<Zone> getPreviousZones() {
-            return previousZones;
+        public void getPreviousZones(OnGetZonesListener listener) {
+            ArrayList<Zone> zoness = new ArrayList<>();
+            if(previousZoneIDs == null || previousZoneIDs.size() == 0){
+                listener.onSuccess(zoness);
+            }
+            else{
+                for(String ID : previousZoneIDs){
+                    Zone.getZone(ID, new OnGetZoneListener() {
+                        @Override
+                        public void onSuccess(Zone zone) {
+                            zoness.add(zone);
+                            if(zoness.size() == previousZoneIDs.size()){
+                                listener.onSuccess(zoness);
+                            }
+                        }
+                    });
+                }
+            }
+
         }
 
         public void addPreviousZone(Zone previousZone) {
-            this.previousZones.add(previousZone);
+            if(previousZoneIDs == null){
+                previousZoneIDs = new ArrayList<>();
+            }
+            this.previousZoneIDs.add(previousZone.getZoneID());
         }
 
         public void setPreviousZones(ArrayList<Zone> prevZones){

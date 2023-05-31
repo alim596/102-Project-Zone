@@ -104,6 +104,7 @@ public class NotRecyAdap extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 @Override
                                 public void onSuccess(Zone zone) {
                                     zone.addParticipant(notification.getInteracorUser());
+                                    notification.getInteracorUser().addPreviousZone(zone);
                                 }
                             });
                             Toast.makeText(view.getContext(), "Zone request is accepted!", Toast.LENGTH_LONG).show();

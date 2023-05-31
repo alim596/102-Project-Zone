@@ -150,10 +150,9 @@ public class AddFragment extends Fragment {
                     public void onSuccess(User user) {
                         zone.addParticipant(user);
                         // Save the zone to the database
-                        firestore.collection("zones").add(zone)
+                        firestore.collection("zones").document(zone.getZoneID()).set(zone)
                                 .addOnSuccessListener(documentReference -> {
-                                    String zoneId = documentReference.getId();
-                                    Log.d("TAG", "Zone added with ID: " + zoneId);
+                                    Log.d("TAG", "Zone added with ID: ");
                                 })
                                 .addOnFailureListener(e -> {
                                     Log.w("TAG", "Error adding zone", e);

@@ -73,13 +73,20 @@ public class Zone {
                 zone.imageUriStr = null;
                 zone.name = (String) snapshotValue.get("name");
                 zone.participants = (ArrayList<User>)snapshotValue.get("participants");
-                zone.quota = (int)snapshotValue.get("quota");
+                if(snapshotValue.get("quota").getClass().equals(Long.class)){
+                    zone.quota = ((Long)snapshotValue.get("quota")).intValue();
+                }
+                else {
+                    zone.quota = (int)snapshotValue.get("quota");
+                }
+
                 zone.zoneID = (String)(snapshotValue.get("zoneID"));
                 listener.onSuccess(zone);
             }
         });
     }
     public Zone(){}
+
 
 
     public String getName() {
@@ -166,8 +173,22 @@ public class Zone {
     }
 
     public void addParticipant(User participant) {
-        participants.add(participant);
-        participantsNames.add(participant.getUsername());
+        if(participants == null){
+            participants = new ArrayList<>();
+            participants.add(participant);
+        }
+        else{
+            participants.add(participant);
+        }
+        if(participantsNames == null){
+            participantsNames = new ArrayList<>();
+            participantsNames.add(participant.getUsername());
+        }
+        else{
+            participantsNames.add(participant.getUsername());
+        }
+
+
         updateParticipants(this.getZoneID(),participant);
     }
 

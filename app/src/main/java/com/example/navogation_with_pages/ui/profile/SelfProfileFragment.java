@@ -31,6 +31,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.navogation_with_pages.ui.adapters.ZonesRecViewAdapter;
 import com.example.navogation_with_pages.ui.object_classes.OnGetUserListener;
 import com.example.navogation_with_pages.R;
+import com.example.navogation_with_pages.ui.object_classes.OnGetZonesListener;
 import com.example.navogation_with_pages.ui.object_classes.User;
 import com.example.navogation_with_pages.ui.object_classes.Zone;
 import com.example.navogation_with_pages.ui.adapters.ZonesRecViewAdapter2;
@@ -48,6 +49,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class SelfProfileFragment extends Fragment {
@@ -92,11 +94,14 @@ public class SelfProfileFragment extends Fragment {
         ratingText.setText("Average Rating: " + avRating + "/5");
         ZonesRecViewAdapter2 adapter = new ZonesRecViewAdapter2();
         recyclerView.setAdapter(adapter);
-        Zone newZone = new Zone("String name", 3, "String dateAndTime", "String details", "String location", "String category");
-        newZone.addParticipant(user);
-        user.addPreviousZone(newZone);
-        adapter.setZones(user.getPreviousZones());
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        user.getPreviousZones(new OnGetZonesListener() {
+            @Override
+            public void onSuccess(ArrayList<Zone> zones) {
+                adapter.setZones(zones);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            }
+        });
+
         Button settingsButton = (Button) SelfProfileFragment.this.getActivity().findViewById(R.id.button);
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override

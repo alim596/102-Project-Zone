@@ -20,9 +20,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.navogation_with_pages.ui.object_classes.Notification;
 import com.example.navogation_with_pages.ui.object_classes.OnGetUserListener;
 import com.example.navogation_with_pages.R;
 import com.example.navogation_with_pages.ui.object_classes.OnGetUsersListener;
+import com.example.navogation_with_pages.ui.object_classes.OnGetZonesListener;
 import com.example.navogation_with_pages.ui.object_classes.User;
 import com.example.navogation_with_pages.ui.adapters.ZonesRecViewAdapter2;
 import com.example.navogation_with_pages.ui.object_classes.Zone;
@@ -196,8 +198,8 @@ public class OthersProfileActivity extends AppCompatActivity {
                                         }
                                     }
                                     if(!isFriend){
-                                        currentUser.addFriend(user);
                                         Toast.makeText(OthersProfileActivity.this,"User added to friends!",Toast.LENGTH_SHORT).show();
+                                        Notification not = new Notification(currentUser,user);
                                     }
                                     else{
                                         if(!isConfirm){
@@ -240,7 +242,13 @@ public class OthersProfileActivity extends AppCompatActivity {
         Zone newZone = new Zone("String name", 3, "String dateAndTime", "String details", "String location", "String category");
         newZone.addParticipant(user);
         user.addPreviousZone(newZone);
-        adapter.setZones(user.getPreviousZones());
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        user.getPreviousZones(new OnGetZonesListener() {
+            @Override
+            public void onSuccess(ArrayList<Zone> zones) {
+                adapter.setZones(zones);
+                recyclerView.setLayoutManager(new LinearLayoutManager(OthersProfileActivity.this));
+            }
+        });
+
     }
 }
