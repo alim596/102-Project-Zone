@@ -250,6 +250,5 @@ public class OthersProfileActivity extends AppCompatActivity {
                 recyclerView.setLayoutManager(new LinearLayoutManager(OthersProfileActivity.this));
             }
         });
-
     }
 }
