@@ -58,7 +58,6 @@ public class RegisterpageActivity extends AppCompatActivity {
         fStore = FirebaseFirestore.getInstance();
 
 
-
         if(fAuth.getCurrentUser() != null && fAuth.getCurrentUser().isEmailVerified()){
             Intent myIntent = new Intent(this, MainActivity.class);
             this.startActivity(myIntent);

@@ -155,13 +155,16 @@ public class ZonesRecViewAdapter2 extends RecyclerView.Adapter<ZonesRecViewAdapt
     }
     public void setZones(ArrayList<Zone> zones) {
         ArrayList<Zone> filteredZones = new ArrayList<>();
-        for (Zone zone : zones) {
-            if (!isEventExpired(zone.getDateAndTime())) {
-                filteredZones.add(zone);
+        if(zones != null){
+            for (Zone zone : zones) {
+                if (zone != null && !isEventExpired(zone.getDateAndTime())) {
+                    filteredZones.add(zone);
+                }
             }
+            this.zones = filteredZones;
+            notifyDataSetChanged();
         }
-        this.zones = filteredZones;
-        notifyDataSetChanged();
+
     }
 
     //This class gives objects that can hold CardView items to add to the home page

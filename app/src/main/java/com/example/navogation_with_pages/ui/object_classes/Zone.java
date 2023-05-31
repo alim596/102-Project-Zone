@@ -66,22 +66,25 @@ public class Zone {
                 if(snapshotValue == null){
                     listener.onSuccess(null);
                 }
-                zone.location = (String) snapshotValue.get("location");
-                zone.dateAndTime = (String) snapshotValue.get("dateAndTime");
-                zone.details = (String) snapshotValue.get("details");
-                zone.category = (String) snapshotValue.get("category");
-                zone.imageUriStr = null;
-                zone.name = (String) snapshotValue.get("name");
-                zone.participants = (ArrayList<User>)snapshotValue.get("participants");
-                if(snapshotValue.get("quota").getClass().equals(Long.class)){
-                    zone.quota = ((Long)snapshotValue.get("quota")).intValue();
-                }
-                else {
-                    zone.quota = (int)snapshotValue.get("quota");
+                else{
+                    zone.location = (String) snapshotValue.get("location");
+                    zone.dateAndTime = (String) snapshotValue.get("dateAndTime");
+                    zone.details = (String) snapshotValue.get("details");
+                    zone.category = (String) snapshotValue.get("category");
+                    zone.imageUriStr = null;
+                    zone.name = (String) snapshotValue.get("name");
+                    zone.participants = (ArrayList<User>)snapshotValue.get("participants");
+                    if(snapshotValue.get("quota").getClass().equals(Long.class)){
+                        zone.quota = ((Long)snapshotValue.get("quota")).intValue();
+                    }
+                    else {
+                        zone.quota = (int)snapshotValue.get("quota");
+                    }
+
+                    zone.zoneID = (String)(snapshotValue.get("zoneID"));
+                    listener.onSuccess(zone);
                 }
 
-                zone.zoneID = (String)(snapshotValue.get("zoneID"));
-                listener.onSuccess(zone);
             }
         });
     }
