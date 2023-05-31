@@ -220,7 +220,7 @@ public class OthersProfileActivity extends AppCompatActivity {
                         }
                         else{
                             Toast.makeText(OthersProfileActivity.this,"User added to friends!",Toast.LENGTH_SHORT).show();
-                            currentUser.addFriend(user);
+                            Notification not = new Notification(currentUser,user);
                         }
 
                     }

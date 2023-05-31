@@ -97,6 +97,7 @@ public class NotRecyAdap extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         {
                             user.addFriend(notification.getInteracorUser());
                             Toast.makeText(view.getContext(), "Friends request is accepted", Toast.LENGTH_LONG).show();
+                            notification.delete();
                         }
                         else
                         {
@@ -105,6 +106,7 @@ public class NotRecyAdap extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 public void onSuccess(Zone zone) {
                                     zone.addParticipant(notification.getInteracorUser());
                                     notification.getInteracorUser().addPreviousZone(zone);
+                                    notification.delete();
                                 }
                             });
                             Toast.makeText(view.getContext(), "Zone request is accepted!", Toast.LENGTH_LONG).show();
@@ -115,7 +117,6 @@ public class NotRecyAdap extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             if(view.getId() == R.id.delete_button){
                 Notification notification = NotRecyAdap.this.notifications.get(getAbsoluteAdapterPosition());
                 notification.delete();
-                card_view.setVisibility(View.INVISIBLE);
             }
 
         }
