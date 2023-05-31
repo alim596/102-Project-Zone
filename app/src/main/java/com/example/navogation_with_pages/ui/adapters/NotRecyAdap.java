@@ -112,8 +112,12 @@ public class NotRecyAdap extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     }
                 });
             }
-            if(view.getId() == R.id.delete_button)
+            if(view.getId() == R.id.delete_button){
+                Notification notification = NotRecyAdap.this.notifications.get(getAbsoluteAdapterPosition());
+                notification.delete();
                 card_view.setVisibility(View.INVISIBLE);
+            }
+
         }
     }
 }
