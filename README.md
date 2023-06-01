@@ -1,6 +1,10 @@
 # Zone
 
-Welcome to the Zone! This application allows users to navigate through various features such as profiles, zones, notifications, and more. This README provides an overview of the application, instructions for execution, and details about dependencies.
+Welcome to the Zone! It is common to come across people struggling to adjust to new environments and get to know people, for social anxiety covers the minds of human beings like a contagious disease. And this is not necessarily the case of failure all by itself. People might be uncomfortable making friends, even when considered outgoing, simply because they are not lucky enough to meet people who enjoy the same activities. 
+Despite the industry having several event-organizing tools to overcome this problem, Zone -The savior app of human social life- stands out as a safer and more secure choice for college students. Using Zone, students may interact and collaborate with like-minded people from their academic community independent from student club events in a more secure environment than they can in other apps that are available to the general public. Zone verifies that the user is a student at the institution when registering by using students' email addresses to increase security further.
+To make it even more meritorious, users can rate one another and offer comments based on their experiences through ratings on Zone. This function promotes ethical conduct and a sense of accountability among users. Moreover, other users can report any person who exhibits offensive or disturbing behavior through the site. This promotes a welcoming and polite environment for all users.
+Last but not least, Zone's original concept is not very widespread here in Türkiye. This would enable university students to have the chance to use an innovative platform that meets their unique demands and improves their academic experience. Let’s see the details section to examine the app.
+
 
 ## Features
 
