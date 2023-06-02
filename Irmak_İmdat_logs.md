@@ -1,4 +1,3 @@
-```
 ## Date: 20/02/2023
 - First project meeting occurred.
 - One most fit idea for the purposes of the course is chosen between several ideas.
@@ -23,10 +22,10 @@
 - Database choice for the notifications part was decided and implemented.
 
 ## Date: 15/05/2023
-- Search and notification functionalities are connected to the necessary user and zone functionalities made by teammates:
+- Search and notification functionalities are connected to the necessary user and zone functionalities:
   - Request button for adding a participant to the zone
   - Accept button for adding a friend
   - Delete button for deleting the notification from the database
 
 ## Date: 30/05/2023
-- Last controls are made, and the connections are adjusted.
+- Last controls are made, and the connections are adjusted
