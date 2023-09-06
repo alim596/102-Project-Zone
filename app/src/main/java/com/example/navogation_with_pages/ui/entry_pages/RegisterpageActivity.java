@@ -1,7 +1,5 @@
 package com.example.navogation_with_pages.ui.entry_pages;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;

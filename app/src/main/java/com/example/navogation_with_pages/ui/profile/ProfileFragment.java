@@ -11,9 +11,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.navogation_with_pages.ui.object_classes.User;
 import com.example.navogation_with_pages.R;
 import com.example.navogation_with_pages.databinding.FragmentProfileBinding;
+import com.example.navogation_with_pages.ui.object_classes.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;

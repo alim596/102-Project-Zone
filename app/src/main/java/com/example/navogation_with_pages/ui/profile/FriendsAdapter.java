@@ -1,4 +1,4 @@
-package com.example.navogation_with_pages.ui.adapters;
+package com.example.navogation_with_pages.ui.profile;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,9 +7,8 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.navogation_with_pages.ui.object_classes.User;
 import com.example.navogation_with_pages.R;
-import com.example.navogation_with_pages.ui.profile.FriendsListActivity;
+import com.example.navogation_with_pages.ui.object_classes.User;
 
 import java.util.ArrayList;
 

@@ -9,18 +9,14 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.navogation_with_pages.ui.adapters.FriendsAdapter;
+import com.example.navogation_with_pages.R;
+import com.example.navogation_with_pages.ui.object_classes.OnGetUserListener;
 import com.example.navogation_with_pages.ui.object_classes.OnGetUsersListener;
 import com.example.navogation_with_pages.ui.object_classes.User;
-import com.example.navogation_with_pages.ui.object_classes.OnGetUserListener;
-import com.example.navogation_with_pages.R;
-import com.example.navogation_with_pages.ui.object_classes.Zone;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * The FriendsListActivity displays a list of friends for a specific user.

@@ -1,10 +1,9 @@
-package com.example.navogation_with_pages.ui.add;
+package com.example.navogation_with_pages.ui.home;
 
 import static android.app.Activity.RESULT_OK;
 
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -18,29 +17,22 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
-import com.example.navogation_with_pages.MainActivity;
 import com.example.navogation_with_pages.R;
-import com.example.navogation_with_pages.ui.object_classes.OnGetUserListener;
+import com.example.navogation_with_pages.databinding.FragmentAddBinding;
 import com.example.navogation_with_pages.ui.object_classes.User;
 import com.example.navogation_with_pages.ui.object_classes.Zone;
-import com.example.navogation_with_pages.databinding.FragmentAddBinding;
-import com.example.navogation_with_pages.ui.home.HomeViewModel;
+import com.example.navogation_with_pages.ui.object_classes.OnGetUserListener;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
-import java.util.UUID;
 
 /**
  * <h1>AddFragment Class</h1>

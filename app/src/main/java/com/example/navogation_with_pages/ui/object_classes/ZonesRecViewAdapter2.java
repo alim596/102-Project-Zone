@@ -1,4 +1,4 @@
-package com.example.navogation_with_pages.ui.adapters;
+package com.example.navogation_with_pages.ui.object_classes;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
@@ -15,23 +15,18 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.example.navogation_with_pages.R;
-import com.example.navogation_with_pages.ui.object_classes.Notification;
-import com.example.navogation_with_pages.ui.object_classes.OnGetUserListener;
-import com.example.navogation_with_pages.ui.object_classes.User;
 import com.example.navogation_with_pages.ui.profile.OthersProfileActivity;
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.navogation_with_pages.R;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import com.example.navogation_with_pages.ui.object_classes.Zone;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * <h1>ZonesRecViewAdapter Class</h1>
@@ -46,7 +41,7 @@ import java.util.ArrayList;
  * @since   2023-05-31
  */
 
-public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapter.ViewHolder> {
+public class ZonesRecViewAdapter2 extends RecyclerView.Adapter<ZonesRecViewAdapter2.ViewHolder> {
 
     /**
      * This variable is used to hold the list of Zone objects
@@ -58,7 +53,7 @@ public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapte
     /**
      * This is the default constructor for ZonesRecViewAdapter.
      */
-    public ZonesRecViewAdapter() {
+    public ZonesRecViewAdapter2() {
     }
 
     /**
@@ -70,16 +65,12 @@ public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.zones_list_item, parent, false);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
 
-    /**
-     * This method is used to update the list of zones that the adapter handles with a new list.
-     * @param zones The new list of Zone objects to update the existing one.
-     */
-    public void setFilteredList(ArrayList<Zone> zones) { this.zones = zones; }
 
     /**
      * This method is used to populate data into the item through holder at the given position.
@@ -100,20 +91,32 @@ public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapte
 
         //Adding participants into the zones
         holder.participantsContainer.removeAllViews();
-        if(currentZone.getParticipants() != null){
-            for (User user : currentZone.getParticipants()) {
-                Button userButton = new Button(holder.itemView.getContext());
-                userButton.setText(user.getUsername());
-                userButton.setBackgroundColor(Color.TRANSPARENT); // remove button background to make it just text
-                userButton.setOnClickListener(new View.OnClickListener() {
+        //TODO: presentation fix
+        if(false && currentZone.getParticipants() != null){
+            for (Object userr : currentZone.getParticipants()) {
+                User.getUser((String) ((HashMap<String, Object>) (userr)).get("ID"), new OnGetUserListener() {
                     @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(holder.itemView.getContext(), OthersProfileActivity.class);
-                        intent.putExtra("ID", user.getID());
-                        holder.itemView.getContext().startActivity(intent);
+                    public void onSuccess(User user) {
+                        Button userButton = new Button(holder.itemView.getContext());
+                        userButton.setText(user.getUsername());
+                        userButton.setBackgroundColor(Color.TRANSPARENT); // remove button background to make it just text
+                        userButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(holder.itemView.getContext(), OthersProfileActivity.class);
+                                intent.putExtra("ID", user.getID());
+                                if(!user.getID().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                    holder.itemView.getContext().startActivity(intent);
+                                }
+
+                            }
+
+                        });
+                        holder.participantsContainer.addView(userButton);
                     }
                 });
-                holder.participantsContainer.addView(userButton);
+
+
             }
         }
 
@@ -147,13 +150,6 @@ public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapte
         holder.requestBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO set the implementation for the request button
-                User.getCurrentUser(new OnGetUserListener() {
-                    @Override
-                    public void onSuccess(User user) {
-                        Notification ntf = new Notification(user,currentZone.getParticipants().get(0),currentZone);
-                    }
-                });
             }
         });
     }
@@ -206,13 +202,16 @@ public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapte
      */
     public void setZones(ArrayList<Zone> zones) {
         ArrayList<Zone> filteredZones = new ArrayList<>();
-        for (Zone zone : zones) {
-            if (!isEventExpired(zone.getDateAndTime())) {
-                filteredZones.add(zone);
+        if(zones != null){
+            for (Zone zone : zones) {
+                if (zone != null && !isEventExpired(zone.getDateAndTime())) {
+                    filteredZones.add(zone);
+                }
             }
+            this.zones = filteredZones;
+            notifyDataSetChanged();
         }
-        this.zones = filteredZones;
-        notifyDataSetChanged();
+
     }
 
     /**
@@ -220,6 +219,7 @@ public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapte
      * It extends RecyclerView.ViewHolder and is used to store references for child views.
      */
     public class ViewHolder extends RecyclerView.ViewHolder{
+
         /**
          * These variables represent the TextViews for name and quota in the item view layout.
          */
@@ -252,6 +252,7 @@ public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapte
             hidden = itemView.findViewById(R.id.hidden);
             participantsContainer = itemView.findViewById(R.id.participantsContainer);
             requestBtn = itemView.findViewById(R.id.requestBtn);
+            requestBtn.setVisibility(Button.INVISIBLE);
         }
     }
 }

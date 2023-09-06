@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.navogation_with_pages.R;
 import com.example.navogation_with_pages.ui.object_classes.Zone;
-import com.example.navogation_with_pages.ui.adapters.ZonesRecViewAdapter;
+import com.example.navogation_with_pages.ui.object_classes.ZonesRecViewAdapter;
 
 import java.util.ArrayList;
 
@@ -67,7 +67,7 @@ public class HomeFragment extends Fragment {
 
         RecyclerView zonesRecView = root.findViewById(R.id.zonesRecView);
         zonesRecView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new ZonesRecViewAdapter();
+        adapter = new ZonesRecViewAdapter(getContext());
         zonesRecView.setAdapter(adapter);
 
         homeViewModel.getZones().observe(getViewLifecycleOwner(), new Observer<ArrayList<Zone>>() {

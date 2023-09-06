@@ -1,4 +1,4 @@
-package com.example.navogation_with_pages.ui.adapters;
+package com.example.navogation_with_pages.ui.object_classes;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,14 +10,9 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.navogation_with_pages.R;
-import com.example.navogation_with_pages.ui.object_classes.Notification;
-import com.example.navogation_with_pages.ui.object_classes.OnGetUserListener;
-import com.example.navogation_with_pages.ui.object_classes.OnGetZoneListener;
-import com.example.navogation_with_pages.ui.object_classes.User;
-import com.example.navogation_with_pages.ui.object_classes.Zone;
+import com.example.navogation_with_pages.ui.notifications.Notification;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * An adapter for RecyclerView, used for displaying a list of notifications.
@@ -144,6 +139,7 @@ public class NotRecyAdap extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     {
                         if(!NotRecyAdap.this.notifications.get(getAbsoluteAdapterPosition()).isZoneRequest())
                         {
+                            //TODO: Friends request is accepted without any logic. LOL.
                             user.addFriend(notification.getInteracorUser());
                             Toast.makeText(view.getContext(), "Friends request is accepted", Toast.LENGTH_LONG).show();
                             notification.delete();
@@ -166,6 +162,7 @@ public class NotRecyAdap extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
             if(view.getId() == R.id.delete_button){
                 notification.delete();
+                card_view.setVisibility(View.INVISIBLE);
             }
 
         }

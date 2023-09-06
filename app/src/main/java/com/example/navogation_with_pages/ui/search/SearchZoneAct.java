@@ -1,17 +1,8 @@
 package com.example.navogation_with_pages.ui.search;
 
-import android.content.ClipData;
-import android.content.Context;
 import android.os.Bundle;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -23,14 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.navogation_with_pages.R;
 import com.example.navogation_with_pages.ui.home.HomeViewModel;
 import com.example.navogation_with_pages.ui.object_classes.Zone;
-import com.example.navogation_with_pages.ui.adapters.ZonesRecViewAdapter;
+import com.example.navogation_with_pages.ui.object_classes.ZonesRecViewAdapter;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This activity allows the user to search for zones.
@@ -62,7 +51,7 @@ public class SearchZoneAct extends AppCompatActivity implements SearchView.OnQue
 
         RecyclerView zonesRecView = findViewById(R.id.zonesRecViewZone);
         zonesRecView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new ZonesRecViewAdapter();
+        adapter = new ZonesRecViewAdapter(getApplicationContext());
         zonesRecView.setAdapter(adapter);
 
         homeViewModel.getZones().observe(this, new Observer<ArrayList<Zone>>() {

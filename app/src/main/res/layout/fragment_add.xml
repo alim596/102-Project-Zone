@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#433E40"
     android:paddingHorizontal="40dp"
-    tools:context=".ui.add.AddFragment">
+    tools:context=".ui.home.AddFragment">
 
     <TextView
         android:id="@+id/create_title"

@@ -1,10 +1,9 @@
-package com.example.navogation_with_pages.ui.object_classes;
+package com.example.navogation_with_pages.ui.notifications;
 
 import android.util.Log;
-import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import com.example.navogation_with_pages.ui.object_classes.User;
+import com.example.navogation_with_pages.ui.object_classes.Zone;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 

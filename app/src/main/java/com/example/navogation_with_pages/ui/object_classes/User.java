@@ -4,17 +4,13 @@
 
 
     import com.google.android.gms.tasks.OnCompleteListener;
-    import com.google.android.gms.tasks.OnSuccessListener;
     import com.google.android.gms.tasks.Task;
     import com.google.firebase.auth.FirebaseAuth;
-    import com.google.firebase.firestore.CollectionReference;
     import com.google.firebase.firestore.DocumentReference;
     import com.google.firebase.firestore.DocumentSnapshot;
     import com.google.firebase.firestore.FirebaseFirestore;
 
     import java.util.ArrayList;
-    import java.util.HashMap;
-    import java.util.List;
     import java.util.Map;
 
     public class User {
@@ -183,7 +179,13 @@
             }
 
 
-
+        //Check if the id's of two users are the same.
+        public boolean equals(User anotherUser){
+            if(this.getID().equals(anotherUser.getID())){
+                return true;
+            }
+            return false;
+        }
 
 
         /**

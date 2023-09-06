@@ -1,10 +1,6 @@
 package com.example.navogation_with_pages.ui.profile;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,15 +16,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.navogation_with_pages.ui.object_classes.Notification;
-import com.example.navogation_with_pages.ui.object_classes.OnGetUserListener;
 import com.example.navogation_with_pages.R;
+import com.example.navogation_with_pages.ui.notifications.Notification;
+import com.example.navogation_with_pages.ui.object_classes.OnGetUserListener;
 import com.example.navogation_with_pages.ui.object_classes.OnGetUsersListener;
 import com.example.navogation_with_pages.ui.object_classes.OnGetZoneListener;
-import com.example.navogation_with_pages.ui.object_classes.OnGetZonesListener;
 import com.example.navogation_with_pages.ui.object_classes.User;
-import com.example.navogation_with_pages.ui.adapters.ZonesRecViewAdapter2;
 import com.example.navogation_with_pages.ui.object_classes.Zone;
+import com.example.navogation_with_pages.ui.object_classes.ZonesRecViewAdapter2;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;

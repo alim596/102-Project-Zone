@@ -1,7 +1,8 @@
-package com.example.navogation_with_pages.ui.adapters;
+package com.example.navogation_with_pages.ui.object_classes;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -14,24 +15,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.navogation_with_pages.R;
-import com.example.navogation_with_pages.ui.object_classes.OnGetUserListener;
-import com.example.navogation_with_pages.ui.object_classes.User;
+import com.example.navogation_with_pages.ui.notifications.Notification;
 import com.example.navogation_with_pages.ui.profile.OthersProfileActivity;
-import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.navogation_with_pages.R;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import com.example.navogation_with_pages.ui.object_classes.Zone;
 import java.util.ArrayList;
 
 /**
@@ -47,19 +43,23 @@ import java.util.ArrayList;
  * @since   2023-05-31
  */
 
-public class ZonesRecViewAdapter2 extends RecyclerView.Adapter<ZonesRecViewAdapter2.ViewHolder> {
+public class ZonesRecViewAdapter extends RecyclerView.Adapter<ZonesRecViewAdapter.ViewHolder> {
 
     /**
      * This variable is used to hold the list of Zone objects
      * It's an ArrayList of Zone objects.
      */
+    private Context context;
     private ArrayList<Zone> zones = new ArrayList<>();
     LinearLayout participantsContainer2;
 
     /**
      * This is the default constructor for ZonesRecViewAdapter.
      */
-    public ZonesRecViewAdapter2() {
+    public ZonesRecViewAdapter() {
+    }
+    public ZonesRecViewAdapter(Context context){
+        this.context = context;
     }
 
     /**
@@ -71,12 +71,16 @@ public class ZonesRecViewAdapter2 extends RecyclerView.Adapter<ZonesRecViewAdapt
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.zones_list_item, parent, false);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
 
+    /**
+     * This method is used to update the list of zones that the adapter handles with a new list.
+     * @param zones The new list of Zone objects to update the existing one.
+     */
+    public void setFilteredList(ArrayList<Zone> zones) { this.zones = zones; }
 
     /**
      * This method is used to populate data into the item through holder at the given position.
@@ -97,32 +101,20 @@ public class ZonesRecViewAdapter2 extends RecyclerView.Adapter<ZonesRecViewAdapt
 
         //Adding participants into the zones
         holder.participantsContainer.removeAllViews();
-        //TODO: presentation fix
-        if(false && currentZone.getParticipants() != null){
-            for (Object userr : currentZone.getParticipants()) {
-                User.getUser((String) ((HashMap<String, Object>) (userr)).get("ID"), new OnGetUserListener() {
+        if(currentZone.getParticipants() != null){
+            for (User user : currentZone.getParticipants()) {
+                Button userButton = new Button(holder.itemView.getContext());
+                userButton.setText(user.getUsername());
+                userButton.setBackgroundColor(Color.TRANSPARENT); // remove button background to make it just text
+                userButton.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onSuccess(User user) {
-                        Button userButton = new Button(holder.itemView.getContext());
-                        userButton.setText(user.getUsername());
-                        userButton.setBackgroundColor(Color.TRANSPARENT); // remove button background to make it just text
-                        userButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent(holder.itemView.getContext(), OthersProfileActivity.class);
-                                intent.putExtra("ID", user.getID());
-                                if(!user.getID().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
-                                    holder.itemView.getContext().startActivity(intent);
-                                }
-
-                            }
-
-                        });
-                        holder.participantsContainer.addView(userButton);
+                    public void onClick(View v) {
+                        Intent intent = new Intent(holder.itemView.getContext(), OthersProfileActivity.class);
+                        intent.putExtra("ID", user.getID());
+                        holder.itemView.getContext().startActivity(intent);
                     }
                 });
-
-
+                holder.participantsContainer.addView(userButton);
             }
         }
 
@@ -156,6 +148,28 @@ public class ZonesRecViewAdapter2 extends RecyclerView.Adapter<ZonesRecViewAdapt
         holder.requestBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //TODO set the implementation for the request button
+                User.getCurrentUser(new OnGetUserListener() {
+                    @Override
+                    public void onSuccess(User user) {
+                        User zoneOwner = currentZone.getParticipants().get(0);
+                        if(user.equals(zoneOwner)){
+                            Toast.makeText(context, "You are the owner of this Zone!", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            boolean inZone = false;
+                            for(User participant : currentZone.getParticipants()){
+                                if(participant.equals(user)){
+                                    Toast.makeText(context, "You are already in this Zone!", Toast.LENGTH_SHORT).show();
+                                    inZone = true;
+                                }
+                            }
+                            if(!inZone){
+                                Notification ntf = new Notification(user,zoneOwner,currentZone);
+                            }
+                        }
+                    }
+                });
             }
         });
     }
@@ -208,16 +222,13 @@ public class ZonesRecViewAdapter2 extends RecyclerView.Adapter<ZonesRecViewAdapt
      */
     public void setZones(ArrayList<Zone> zones) {
         ArrayList<Zone> filteredZones = new ArrayList<>();
-        if(zones != null){
-            for (Zone zone : zones) {
-                if (zone != null && !isEventExpired(zone.getDateAndTime())) {
-                    filteredZones.add(zone);
-                }
+        for (Zone zone : zones) {
+            if (!isEventExpired(zone.getDateAndTime())) {
+                filteredZones.add(zone);
             }
-            this.zones = filteredZones;
-            notifyDataSetChanged();
         }
-
+        this.zones = filteredZones;
+        notifyDataSetChanged();
     }
 
     /**
@@ -225,7 +236,6 @@ public class ZonesRecViewAdapter2 extends RecyclerView.Adapter<ZonesRecViewAdapt
      * It extends RecyclerView.ViewHolder and is used to store references for child views.
      */
     public class ViewHolder extends RecyclerView.ViewHolder{
-
         /**
          * These variables represent the TextViews for name and quota in the item view layout.
          */
@@ -258,7 +268,6 @@ public class ZonesRecViewAdapter2 extends RecyclerView.Adapter<ZonesRecViewAdapt
             hidden = itemView.findViewById(R.id.hidden);
             participantsContainer = itemView.findViewById(R.id.participantsContainer);
             requestBtn = itemView.findViewById(R.id.requestBtn);
-            requestBtn.setVisibility(Button.INVISIBLE);
         }
     }
 }
